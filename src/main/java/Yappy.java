@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public class Yappy {
 	public static final String BREAKLINE = "_________________________________________";
@@ -9,6 +11,12 @@ public class Yappy {
 		+ "  |_|\\__,_| .__/| .__/ \\__, |\n"
 		+ "	  |_|   |_|    |___/\n";
 	public static final String EXIT_COMMAND = "bye";
+
+	private static final Map<String, Consumer<String>> commands = Map.of(
+		"list", s -> listTask()
+	);
+	private static String[] tasks = new String[100];
+	private static int taskCount = 0;
 
     public static void main(String[] args) {
 		printBreakLine();
@@ -36,15 +44,37 @@ public class Yappy {
 		String input = scanner.nextLine();
 
 		while (!input.equals(EXIT_COMMAND)) {
-			echo(input);
+			String command = "";
+			String argument = "";
+			if (!input.isBlank()) {
+				String[] parsed_input = input.trim().split("\\s+", 2);
+				command = parsed_input[0];
+				if (parsed_input.length > 1) {
+					argument = parsed_input[1];
+				}
+			}
+
+			printBreakLine();
+			if (commands.containsKey(command)) {
+				commands.get(command).accept(input);
+			} else {
+				addTask(input);
+			}
+			printBreakLine();
 			input = scanner.nextLine();
 		}
 	}
 
-	private static void echo(String input) {
-		printBreakLine();
-		System.out.println(input);
-		printBreakLine();
+	private static void addTask(String task) {
+		tasks[taskCount] = task;
+		taskCount++;
+		System.out.println("added: " + task);
+	}
+
+	private static void listTask() {
+		for (int i = 0; i < taskCount; i++) {
+			System.out.printf("%d. %s%n", i + 1, tasks[i]);
+		}
 	}
 
 	private static void exit() {
