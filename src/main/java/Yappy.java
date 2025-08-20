@@ -17,7 +17,8 @@ public class Yappy {
 		"mark", s -> markTask(s),
 		"unmark", s -> unmarkTask(s),
 		"todo", s -> addToDoTask(s),
-		"deadline", s -> addDeadlineTask(s)
+		"deadline", s -> addDeadlineTask(s),
+		"event", s -> addEventTask(s)
 	);
 	private static Task[] tasks = new Task[100];
 	private static int taskCount = 0;
@@ -51,10 +52,10 @@ public class Yappy {
 			String command = "";
 			String argument = "";
 			if (!input.isBlank()) {
-				String[] parsed_input = input.trim().split("\\s+", 2);
-				command = parsed_input[0];
-				if (parsed_input.length > 1) {
-					argument = parsed_input[1];
+				String[] parsedInput = input.trim().split("\\s+", 2);
+				command = parsedInput[0];
+				if (parsedInput.length > 1) {
+					argument = parsedInput[1];
 				}
 			}
 
@@ -82,10 +83,10 @@ public class Yappy {
 		String description = null;
 		String deadline = null;
 		if (!constructionString.isBlank()) {
-			String[] parsed_argument = constructionString.trim().split(" /by ");
-			if (parsed_argument.length == 2) {
-				description = parsed_argument[0];
-				deadline = parsed_argument[1];
+			String[] parsedArgument = constructionString.trim().split(" /by ");
+			if (parsedArgument.length == 2) {
+				description = parsedArgument[0];
+				deadline = parsedArgument[1];
 			}
 		}
 
@@ -95,6 +96,34 @@ public class Yappy {
 		} else {
 			System.out.println("For a deadline task, please have your input be of the form");
 			System.out.println("  daedline <description> \\by <deadline>");
+		}
+	}
+
+	private static void addEventTask(String constructionString) {
+		String description = null;
+		String from = null;
+		String to = null;
+		if (!constructionString.isBlank()) {
+			String[] semiParsedArgument = constructionString.trim().split(" /from ");
+			if (semiParsedArgument.length == 2) {
+				description = semiParsedArgument[0];
+				String fromAndToString = semiParsedArgument[1];
+
+				String[] fromAndTo = fromAndToString.trim().split(" /to ");
+
+				if (fromAndTo.length == 2) {
+					from = fromAndTo[0];
+					to = fromAndTo[1];
+				}
+			}
+		}
+
+		if (description != null && from != null && to != null) {
+			EventTask eventTask = new EventTask(description, from, to);
+			storeTask(eventTask);
+		} else {
+			System.out.println("For an event task, please have your input be of the form");
+			System.out.println("  event <description> \\from <start> \\to <end>");
 		}
 	}
 
@@ -108,7 +137,7 @@ public class Yappy {
 			System.out.print("s");
 
 		}
-		System.out.println(" in the list");
+		System.out.println(" in the list.");
 	}
 
 	private static void listTask() {
