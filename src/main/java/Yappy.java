@@ -15,7 +15,7 @@ public class Yappy {
 	private static final Map<String, Consumer<String>> commands = Map.of(
 		"list", s -> listTask()
 	);
-	private static String[] tasks = new String[100];
+	private static Task[] tasks = new Task[100];
 	private static int taskCount = 0;
 
     public static void main(String[] args) {
@@ -65,7 +65,8 @@ public class Yappy {
 		}
 	}
 
-	private static void addTask(String task) {
+	private static void addTask(String taskDescription) {
+		Task task = new Task(taskDescription);
 		tasks[taskCount] = task;
 		taskCount++;
 		System.out.println("added: " + task);
