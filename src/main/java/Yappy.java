@@ -13,7 +13,9 @@ public class Yappy {
 	public static final String EXIT_COMMAND = "bye";
 
 	private static final Map<String, Consumer<String>> commands = Map.of(
-		"list", s -> listTask()
+		"list", s -> listTask(),
+		"mark", s -> markTask(s),
+		"unmark", s -> unmarkTask(s)
 	);
 	private static Task[] tasks = new Task[100];
 	private static int taskCount = 0;
@@ -56,7 +58,7 @@ public class Yappy {
 
 			printBreakLine();
 			if (commands.containsKey(command)) {
-				commands.get(command).accept(input);
+				commands.get(command).accept(argument);
 			} else {
 				addTask(input);
 			}
@@ -75,6 +77,36 @@ public class Yappy {
 	private static void listTask() {
 		for (int i = 0; i < taskCount; i++) {
 			System.out.printf("%d. %s%n", i + 1, tasks[i]);
+		}
+	}
+
+	private static void markTask(String taskIndexStr) {
+		try {
+			int taskIndex = Integer.parseInt(taskIndexStr);
+			if (taskIndex > taskCount) {
+				System.out.printf("Task %d does not exist. Use `list` to find a valid task.%n", taskIndex);
+				return;
+			}
+			Task task = tasks[taskIndex - 1];
+			task.markAsDone();
+			System.out.println("Nice! I've marked this task as done:\n  " + task);
+		} catch (NumberFormatException e) {
+			System.out.println("Please use Arabic numericals (i.e. 1, 2, 3, ...) to indicate which task to be marked.");
+		}
+	}
+
+	private static void unmarkTask(String taskIndexStr) {
+		try {
+			int taskIndex = Integer.parseInt(taskIndexStr);
+			if (taskIndex > taskCount) {
+				System.out.printf("Task %d does not exist. Use `list` to find a valid task.%n", taskIndex);
+				return;
+			}
+			Task task = tasks[taskIndex - 1];
+			task.unmarkAsDone();
+			System.out.println("OK, I've marked this task as not done yet:\n  " + task);
+		} catch (NumberFormatException e) {
+			System.out.println("Please use Arabic numericals (i.e. 1, 2, 3, ...) to indicate which task to be unmarked.");
 		}
 	}
 
