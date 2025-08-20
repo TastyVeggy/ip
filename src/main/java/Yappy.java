@@ -95,7 +95,7 @@ public class Yappy {
 			storeTask(deadlineTask);
 		} else {
 			System.out.println("For a deadline task, please have your input be of the form");
-			System.out.println("  daedline <description> \\by <deadline>");
+			System.out.println("  deadline <description> /by <deadline>");
 		}
 	}
 
@@ -123,7 +123,7 @@ public class Yappy {
 			storeTask(eventTask);
 		} else {
 			System.out.println("For an event task, please have your input be of the form");
-			System.out.println("  event <description> \\from <start> \\to <end>");
+			System.out.println("  event <description> /from <start> /to <end>");
 		}
 	}
 

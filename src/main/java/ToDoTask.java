@@ -11,7 +11,7 @@ public class ToDoTask extends Task {
 
 	@Override
 	public String toString() {
-		String s = "[ ]" + super.toString();
+		String s = "[T]" + super.toString();
 		return s;
 	}
 	
