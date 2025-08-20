@@ -15,7 +15,8 @@ public class Yappy {
 	private static final Map<String, Consumer<String>> commands = Map.of(
 		"list", s -> listTask(),
 		"mark", s -> markTask(s),
-		"unmark", s -> unmarkTask(s)
+		"unmark", s -> unmarkTask(s),
+		"todo", s -> addToDoTask(s)
 	);
 	private static Task[] tasks = new Task[100];
 	private static int taskCount = 0;
@@ -60,23 +61,39 @@ public class Yappy {
 			if (commands.containsKey(command)) {
 				commands.get(command).accept(argument);
 			} else {
-				addTask(input);
+				System.out.println("Please start your input with a valid command. List of supported commands:");
+				for (String validCommand : commands.keySet()) {
+					System.out.println("  " + validCommand);
+				}
+				System.out.println("  " + EXIT_COMMAND);
 			}
 			printBreakLine();
 			input = scanner.nextLine();
 		}
 	}
 
-	private static void addTask(String taskDescription) {
-		Task task = new Task(taskDescription);
+	private static void addToDoTask(String description) {
+		ToDoTask toDoTask = new ToDoTask(description);
+		storeTask(toDoTask);
+	}
+
+	private static void storeTask(Task task) {
 		tasks[taskCount] = task;
 		taskCount++;
-		System.out.println("added: " + task);
+		System.out.println("Got it. I've added this task:");
+		System.out.println("  " + task);
+		System.out.printf("Now you have %d task", taskCount);
+		if (taskCount > 1) {
+			System.out.print("s");
+
+		}
+		System.out.println(" in the list");
 	}
 
 	private static void listTask() {
+		System.out.println("Here are the tasks in your list:");
 		for (int i = 0; i < taskCount; i++) {
-			System.out.printf("%d. %s%n", i + 1, tasks[i]);
+			System.out.printf("%d.%s%n", i + 1, tasks[i]);
 		}
 	}
 
