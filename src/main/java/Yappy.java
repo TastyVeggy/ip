@@ -16,7 +16,8 @@ public class Yappy {
 		"list", s -> listTask(),
 		"mark", s -> markTask(s),
 		"unmark", s -> unmarkTask(s),
-		"todo", s -> addToDoTask(s)
+		"todo", s -> addToDoTask(s),
+		"deadline", s -> addDeadlineTask(s)
 	);
 	private static Task[] tasks = new Task[100];
 	private static int taskCount = 0;
@@ -75,6 +76,26 @@ public class Yappy {
 	private static void addToDoTask(String description) {
 		ToDoTask toDoTask = new ToDoTask(description);
 		storeTask(toDoTask);
+	}
+
+	private static void addDeadlineTask(String constructionString) {
+		String description = null;
+		String deadline = null;
+		if (!constructionString.isBlank()) {
+			String[] parsed_argument = constructionString.trim().split(" /by ");
+			if (parsed_argument.length == 2) {
+				description = parsed_argument[0];
+				deadline = parsed_argument[1];
+			}
+		}
+
+		if (description != null && deadline != null) {
+			DeadlineTask deadlineTask = new DeadlineTask(description, deadline);
+			storeTask(deadlineTask);
+		} else {
+			System.out.println("For a deadline task, please have your input be of the form");
+			System.out.println("  daedline <description> \\by <deadline>");
+		}
 	}
 
 	private static void storeTask(Task task) {
