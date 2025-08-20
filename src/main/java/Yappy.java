@@ -11,6 +11,8 @@ public class Yappy {
 		printBreakLine();
 		greet();
 		printBreakLine();
+		exit();
+		printBreakLine();
     }
 
 	private static void printBreakLine() {
@@ -22,5 +24,10 @@ public class Yappy {
 		 + "Hello! I'm Yappy\n"
 		 + "What can I do for you?";
 		System.out.println(greeting);
+	}
+
+	private static void exit() {
+		System.out.println("Bye. Hope to see you again soon!");
+		return;
 	}
 }
