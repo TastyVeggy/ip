@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Yappy {
 	public static final String BREAKLINE = "_________________________________________";
 	public static final String LOGO = "__   __                      \n"
@@ -6,10 +8,13 @@ public class Yappy {
 		+ "  | | (_| | |_) | |_) | |_| |\n"
 		+ "  |_|\\__,_| .__/| .__/ \\__, |\n"
 		+ "	  |_|   |_|    |___/\n";
+	public static final String EXIT_COMMAND = "bye";
 
     public static void main(String[] args) {
 		printBreakLine();
 		greet();
+		printBreakLine();
+		listenInputAndRespond();
 		printBreakLine();
 		exit();
 		printBreakLine();
@@ -24,6 +29,22 @@ public class Yappy {
 		 + "Hello! I'm Yappy\n"
 		 + "What can I do for you?";
 		System.out.println(greeting);
+	}
+
+	private static void listenInputAndRespond() {
+		Scanner scanner = new Scanner(System.in);
+		String input = scanner.nextLine();
+
+		while (!input.equals(EXIT_COMMAND)) {
+			echo(input);
+			input = scanner.nextLine();
+		}
+	}
+
+	private static void echo(String input) {
+		printBreakLine();
+		System.out.println(input);
+		printBreakLine();
 	}
 
 	private static void exit() {
