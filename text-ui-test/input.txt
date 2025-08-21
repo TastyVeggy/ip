@@ -1,0 +1,5 @@
+todo Watch Lecture 1
+deadline Complete Assignment 1 /by Sunday
+event Tutorial 1 /from Monday 1pm /to 3pm
+list
+bye

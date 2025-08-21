@@ -1,7 +1,35 @@
-Hello from
- ____        _        
-|  _ \ _   _| | _____ 
-| | | | | | | |/ / _ \
-| |_| | |_| |   <  __/
-|____/ \__,_|_|\_\___|
+_________________________________________
+__   __                      
+\ \ / /_ _ _ __  _ __  _   _ 
+ \ V / _` | '_ \| '_ \| | | |
+  | | (_| | |_) | |_) | |_| |
+  |_|\__,_| .__/| .__/ \__, |
+	  |_|   |_|    |___/
 
+Hello! I'm Yappy
+What can I do for you?
+_________________________________________
+_________________________________________
+Got it. I've added this task:
+  [T][ ] Watch Lecture 1
+Now you have 1 task in the list.
+_________________________________________
+_________________________________________
+Got it. I've added this task:
+  [D][ ] Complete Assignment 1 (by: Sunday)
+Now you have 2 tasks in the list.
+_________________________________________
+_________________________________________
+Got it. I've added this task:
+  [E][ ] Tutorial 1 (from: Monday 1pm to: 3pm)
+Now you have 3 tasks in the list.
+_________________________________________
+_________________________________________
+Here are the tasks in your list:
+1.[T][ ] Watch Lecture 1
+2.[D][ ] Complete Assignment 1 (by: Sunday)
+3.[E][ ] Tutorial 1 (from: Monday 1pm to: 3pm)
+_________________________________________
+_________________________________________
+Bye. Hope to see you again soon!
+_________________________________________
