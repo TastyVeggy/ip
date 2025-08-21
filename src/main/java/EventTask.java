@@ -9,7 +9,7 @@ public class EventTask extends Task {
 	 * @param from The start of event.
 	 * @param to The end of event.
 	 */
-	public EventTask(String description, String from, String to) {
+	public EventTask(String description, String from, String to) throws EmptyTaskDescriptionException {
 		super(description);
 		this.from = from;
 		this.to = to;

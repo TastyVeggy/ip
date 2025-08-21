@@ -5,7 +5,7 @@ public class ToDoTask extends Task {
 	 *
 	 * @param description The description of the task.
 	 */
-	public ToDoTask(String description) {
+	public ToDoTask(String description) throws EmptyTaskDescriptionException {
 		super(description);
 	}
 

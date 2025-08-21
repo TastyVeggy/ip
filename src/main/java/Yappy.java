@@ -1,7 +1,5 @@
 import java.util.Scanner;
 import java.util.Map;
-import java.util.function.Consumer;
-
 public class Yappy {
 	public static final String BREAKLINE = "_________________________________________";
 	public static final String LOGO = "__   __                      \n"
@@ -12,8 +10,8 @@ public class Yappy {
 		+ "	  |_|   |_|    |___/\n";
 	public static final String EXIT_COMMAND = "bye";
 
-	private static final Map<String, Consumer<String>> commands = Map.of(
-		"list", s -> listTask(),
+	private static final Map<String, YappyConsumer<String>> commands = Map.of(
+		"list", s -> listTask(s),
 		"mark", s -> markTask(s),
 		"unmark", s -> unmarkTask(s),
 		"todo", s -> addToDoTask(s),
@@ -61,7 +59,11 @@ public class Yappy {
 
 			printBreakLine();
 			if (commands.containsKey(command)) {
-				commands.get(command).accept(argument);
+				try {
+					commands.get(command).accept(argument);
+				} catch (YappyException e) {
+					System.out.println(e.getMessage());
+				}
 			} else {
 				System.out.println("Please start your input with a valid command. List of supported commands:");
 				for (String validCommand : commands.keySet()) {
@@ -72,58 +74,73 @@ public class Yappy {
 			printBreakLine();
 			input = scanner.nextLine();
 		}
+
+		scanner.close();
 	}
 
-	private static void addToDoTask(String description) {
-		ToDoTask toDoTask = new ToDoTask(description);
+	private static void addToDoTask(String description) throws YappyException {
+		ToDoTask toDoTask;
+		try {
+			toDoTask = new ToDoTask(description);
+		} catch (EmptyTaskDescriptionException e) {
+			throw new YappyException(e.getMessage());
+		}
 		storeTask(toDoTask);
 	}
 
-	private static void addDeadlineTask(String constructionString) {
+	private static void addDeadlineTask(String constructionString) throws YappyException{
 		String description = null;
 		String deadline = null;
 		if (!constructionString.isBlank()) {
-			String[] parsedArgument = constructionString.trim().split(" /by ");
+			String[] parsedArgument = constructionString.split("/by ");
 			if (parsedArgument.length == 2) {
-				description = parsedArgument[0];
-				deadline = parsedArgument[1];
+				description = parsedArgument[0].trim();
+				deadline = parsedArgument[1].trim();
 			}
 		}
 
-		if (description != null && deadline != null) {
-			DeadlineTask deadlineTask = new DeadlineTask(description, deadline);
+		if (deadline != null) {
+			DeadlineTask deadlineTask;
+			try {
+				deadlineTask = new DeadlineTask(description, deadline);
+			} catch (EmptyTaskDescriptionException e) {
+				throw new YappyException(e.getMessage());
+			}
 			storeTask(deadlineTask);
 		} else {
-			System.out.println("For a deadline task, please have your input be of the form");
-			System.out.println("  deadline <description> /by <deadline>");
+			throw new YappyInputException("create a deadline task", "deadline <description> /by <deadline>");
 		}
 	}
 
-	private static void addEventTask(String constructionString) {
+	private static void addEventTask(String constructionString) throws YappyException {
 		String description = null;
 		String from = null;
 		String to = null;
 		if (!constructionString.isBlank()) {
-			String[] semiParsedArgument = constructionString.trim().split(" /from ");
+			String[] semiParsedArgument = constructionString.split("/from ");
 			if (semiParsedArgument.length == 2) {
-				description = semiParsedArgument[0];
-				String fromAndToString = semiParsedArgument[1];
+				description = semiParsedArgument[0].trim();
+				String fromAndToString = semiParsedArgument[1].trim();
 
-				String[] fromAndTo = fromAndToString.trim().split(" /to ");
+				String[] fromAndTo = fromAndToString.split("/to ");
 
 				if (fromAndTo.length == 2) {
-					from = fromAndTo[0];
-					to = fromAndTo[1];
+					from = fromAndTo[0].trim();
+					to = fromAndTo[1].trim();
 				}
 			}
 		}
 
-		if (description != null && from != null && to != null) {
-			EventTask eventTask = new EventTask(description, from, to);
+		EventTask eventTask;
+		if (from != null && to != null) {
+			try {
+				eventTask = new EventTask(description, from, to);
+			} catch (EmptyTaskDescriptionException e) {
+				throw new YappyException(e.getMessage());
+			}
 			storeTask(eventTask);
 		} else {
-			System.out.println("For an event task, please have your input be of the form");
-			System.out.println("  event <description> /from <start> /to <end>");
+			throw new YappyInputException("create an event task", "event <description> /from <start> /to <end>");
 		}
 	}
 
@@ -140,41 +157,46 @@ public class Yappy {
 		System.out.println(" in the list.");
 	}
 
-	private static void listTask() {
+	private static void listTask(String arg) throws YappyInputException{
+		if (!arg.isBlank()) {
+			throw new YappyInputException("list tasks", "list");
+
+		}
 		System.out.println("Here are the tasks in your list:");
 		for (int i = 0; i < taskCount; i++) {
 			System.out.printf("%d.%s%n", i + 1, tasks[i]);
 		}
 	}
 
-	private static void markTask(String taskIndexStr) {
+	private static void markTask(String taskIndexStr) throws YappyException {
+		int taskIndex;
 		try {
-			int taskIndex = Integer.parseInt(taskIndexStr);
-			if (taskIndex > taskCount) {
-				System.out.printf("Task %d does not exist. Use `list` to find a valid task.%n", taskIndex);
-				return;
-			}
-			Task task = tasks[taskIndex - 1];
-			task.markAsDone();
-			System.out.println("Nice! I've marked this task as done:\n  " + task);
+			System.out.println(taskIndexStr);
+			taskIndex = Integer.parseInt(taskIndexStr);
 		} catch (NumberFormatException e) {
-			System.out.println("Please use Arabic numericals (i.e. 1, 2, 3, ...) to indicate which task to be marked.");
+			throw new YappyInputException("mark task", "mark <task index (Arabic numerical)>");
 		}
+		if (taskIndex > taskCount) {
+			throw new YappyTaskNotFoundException(taskIndex);
+		}
+		Task task = tasks[taskIndex - 1];
+		task.markAsDone();
+		System.out.println("Nice! I've marked this task as done:\n  " + task);
 	}
 
-	private static void unmarkTask(String taskIndexStr) {
+	private static void unmarkTask(String taskIndexStr) throws YappyException {
+		int taskIndex;
 		try {
-			int taskIndex = Integer.parseInt(taskIndexStr);
-			if (taskIndex > taskCount) {
-				System.out.printf("Task %d does not exist. Use `list` to find a valid task.%n", taskIndex);
-				return;
-			}
-			Task task = tasks[taskIndex - 1];
-			task.unmarkAsDone();
-			System.out.println("OK, I've marked this task as not done yet:\n  " + task);
+			taskIndex = Integer.parseInt(taskIndexStr);
 		} catch (NumberFormatException e) {
-			System.out.println("Please use Arabic numericals (i.e. 1, 2, 3, ...) to indicate which task to be unmarked.");
+			throw new YappyInputException("unmark task", "unmark <task index (Arabic numerical)>");
 		}
+		if (taskIndex > taskCount) {
+			throw new YappyTaskNotFoundException(taskIndex);
+		}
+		Task task = tasks[taskIndex - 1];
+		task.unmarkAsDone();
+		System.out.println("OK, I've marked this task as not done yet:\n  " + task);
 	}
 
 	private static void exit() {
