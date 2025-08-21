@@ -17,7 +17,8 @@ public class Yappy {
 		"unmark", s -> unmarkTask(s),
 		"todo", s -> addToDoTask(s),
 		"deadline", s -> addDeadlineTask(s),
-		"event", s -> addEventTask(s)
+		"event", s -> addEventTask(s),
+		"delete", s -> deleteTask(s)
 	);
 	private static ArrayList<Task> tasks = new ArrayList<>();
 	// private static int taskCount = 0;
@@ -197,6 +198,22 @@ public class Yappy {
 		Task task = tasks.get(taskIndex - 1);
 		task.unmarkAsDone();
 		System.out.println("OK, I've marked this task as not done yet:\n  " + task);
+	}
+
+	private static void deleteTask(String taskIndexStr) throws YappyException {
+		int taskIndex;
+		try {
+			taskIndex = Integer.parseInt(taskIndexStr);
+		} catch (NumberFormatException e) {
+			throw new YappyInputException("delete task", "delete <task index (Arabic numerical)>");
+		}
+		if (taskIndex > tasks.size()) {
+			throw new YappyTaskNotFoundException(taskIndex);
+		}
+		Task task = tasks.get(taskIndex - 1);
+		tasks.remove(taskIndex - 1);
+		System.out.println("Noted, I've removed this task:\n  " + task);
+		System.out.printf("Now you have %d tasks in the list.%n", tasks.size());
 	}
 
 	private static void exit() {
