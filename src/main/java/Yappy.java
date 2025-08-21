@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 import java.util.Map;
 public class Yappy {
 	public static final String BREAKLINE = "_________________________________________";
@@ -18,8 +19,8 @@ public class Yappy {
 		"deadline", s -> addDeadlineTask(s),
 		"event", s -> addEventTask(s)
 	);
-	private static Task[] tasks = new Task[100];
-	private static int taskCount = 0;
+	private static ArrayList<Task> tasks = new ArrayList<>();
+	// private static int taskCount = 0;
 
     public static void main(String[] args) {
 		printBreakLine();
@@ -145,12 +146,11 @@ public class Yappy {
 	}
 
 	private static void storeTask(Task task) {
-		tasks[taskCount] = task;
-		taskCount++;
+		tasks.add(task);
 		System.out.println("Got it. I've added this task:");
 		System.out.println("  " + task);
-		System.out.printf("Now you have %d task", taskCount);
-		if (taskCount > 1) {
+		System.out.printf("Now you have %d task", tasks.size());
+		if (tasks.size() > 1) {
 			System.out.print("s");
 
 		}
@@ -163,8 +163,8 @@ public class Yappy {
 
 		}
 		System.out.println("Here are the tasks in your list:");
-		for (int i = 0; i < taskCount; i++) {
-			System.out.printf("%d.%s%n", i + 1, tasks[i]);
+		for (int i = 0; i < tasks.size(); i++) {
+			System.out.printf("%d.%s%n", i + 1, tasks.get(i));
 		}
 	}
 
@@ -176,10 +176,10 @@ public class Yappy {
 		} catch (NumberFormatException e) {
 			throw new YappyInputException("mark task", "mark <task index (Arabic numerical)>");
 		}
-		if (taskIndex > taskCount) {
+		if (taskIndex > tasks.size()) {
 			throw new YappyTaskNotFoundException(taskIndex);
 		}
-		Task task = tasks[taskIndex - 1];
+		Task task = tasks.get(taskIndex - 1);
 		task.markAsDone();
 		System.out.println("Nice! I've marked this task as done:\n  " + task);
 	}
@@ -191,10 +191,10 @@ public class Yappy {
 		} catch (NumberFormatException e) {
 			throw new YappyInputException("unmark task", "unmark <task index (Arabic numerical)>");
 		}
-		if (taskIndex > taskCount) {
+		if (taskIndex > tasks.size()) {
 			throw new YappyTaskNotFoundException(taskIndex);
 		}
-		Task task = tasks[taskIndex - 1];
+		Task task = tasks.get(taskIndex - 1);
 		task.unmarkAsDone();
 		System.out.println("OK, I've marked this task as not done yet:\n  " + task);
 	}
