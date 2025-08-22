@@ -1,37 +1,45 @@
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Map;
+
 public class Yappy {
 	public static final String BREAKLINE = "_________________________________________";
 	public static final String LOGO = "__   __                      \n"
-		+ "\\ \\ / /_ _ _ __  _ __  _   _ \n"
-		+ " \\ V / _` | '_ \\| '_ \\| | | |\n"
-		+ "  | | (_| | |_) | |_) | |_| |\n"
-		+ "  |_|\\__,_| .__/| .__/ \\__, |\n"
-		+ "	  |_|   |_|    |___/\n";
+			+ "\\ \\ / /_ _ _ __  _ __  _   _ \n"
+			+ " \\ V / _` | '_ \\| '_ \\| | | |\n"
+			+ "  | | (_| | |_) | |_) | |_| |\n"
+			+ "  |_|\\__,_| .__/| .__/ \\__, |\n"
+			+ "	  |_|   |_|    |___/\n";
 	public static final String EXIT_COMMAND = "bye";
+	public static final String TASKS_SAVE_FILE = "data.dat";
 
 	private static final Map<String, YappyConsumer<String>> commands = Map.of(
-		"list", s -> listTask(s),
-		"mark", s -> markTask(s),
-		"unmark", s -> unmarkTask(s),
-		"todo", s -> addToDoTask(s),
-		"deadline", s -> addDeadlineTask(s),
-		"event", s -> addEventTask(s),
-		"delete", s -> deleteTask(s)
-	);
+			"list", s -> listTask(s),
+			"mark", s -> markTask(s),
+			"unmark", s -> unmarkTask(s),
+			"todo", s -> addToDoTask(s),
+			"deadline", s -> addDeadlineTask(s),
+			"event", s -> addEventTask(s),
+			"delete", s -> deleteTask(s));
 	private static ArrayList<Task> tasks = new ArrayList<>();
 	// private static int taskCount = 0;
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
 		printBreakLine();
 		greet();
+		printBreakLine();
+		loadTasks(TASKS_SAVE_FILE);
 		printBreakLine();
 		listenInputAndRespond();
 		printBreakLine();
 		exit();
 		printBreakLine();
-    }
+	}
 
 	private static void printBreakLine() {
 		System.out.println(BREAKLINE);
@@ -39,8 +47,8 @@ public class Yappy {
 
 	private static void greet() {
 		String greeting = Yappy.LOGO + "\n"
-		 + "Hello! I'm Yappy\n"
-		 + "What can I do for you?";
+				+ "Hello! I'm Yappy\n"
+				+ "What can I do for you?";
 		System.out.println(greeting);
 	}
 
@@ -63,6 +71,7 @@ public class Yappy {
 			if (commands.containsKey(command)) {
 				try {
 					commands.get(command).accept(argument);
+					saveTasks(TASKS_SAVE_FILE);
 				} catch (YappyException e) {
 					System.out.println(e.getMessage());
 				}
@@ -80,6 +89,33 @@ public class Yappy {
 		scanner.close();
 	}
 
+	private static void saveTasks(String filepath) {
+		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filepath))) {
+			out.writeObject(tasks);
+		} catch (IOException e) {
+			System.out.println(
+					"Unable to backup tasks due to: " + e.getMessage()
+							+ "\n\nFuture instances of this program may not have the most updated task list");
+		}
+	}
+
+	private static void loadTasks(String filepath) {
+		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filepath))) {
+			@SuppressWarnings("unchecked")
+			ArrayList<Task> loadedTasks = (ArrayList<Task>) in.readObject();
+			for (Task task : loadedTasks) {
+				tasks.add(task);
+			}
+			System.out.println("Successfully synced tasks from " + filepath);
+		} catch (IOException | ClassNotFoundException e) {
+			System.out.println(
+					"Unable to restore tasks due to: " + e.getMessage()
+							+ "\n\nThere may have been no previous instance of this program or the " + filepath
+							+ " file has been deleted.");
+		}
+
+	}
+
 	private static void addToDoTask(String description) throws YappyException {
 		ToDoTask toDoTask;
 		try {
@@ -90,7 +126,7 @@ public class Yappy {
 		storeTask(toDoTask);
 	}
 
-	private static void addDeadlineTask(String constructionString) throws YappyException{
+	private static void addDeadlineTask(String constructionString) throws YappyException {
 		String description = null;
 		String deadline = null;
 		if (!constructionString.isBlank()) {
@@ -158,7 +194,7 @@ public class Yappy {
 		System.out.println(" in the list.");
 	}
 
-	private static void listTask(String arg) throws YappyInputException{
+	private static void listTask(String arg) throws YappyInputException {
 		if (!arg.isBlank()) {
 			throw new YappyInputException("list tasks", "list");
 

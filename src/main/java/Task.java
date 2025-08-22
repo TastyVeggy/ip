@@ -1,4 +1,6 @@
-public class Task {
+import java.io.Serializable;
+
+public class Task implements Serializable {
 	protected String description;
 	protected boolean isDone;
 
@@ -15,8 +17,9 @@ public class Task {
 		this.isDone = false;
 	}
 
-	/** Returns the icon corresponding to the status of the task. Task which
-	 * are done returns the "X" icon, while tasks which are not done returns 
+	/**
+	 * Returns the icon corresponding to the status of the task. Task which
+	 * are done returns the "X" icon, while tasks which are not done returns
 	 * " ".
 	 *
 	 * @param description The description of the task.
@@ -26,13 +29,15 @@ public class Task {
 		return (isDone ? "X" : " ");
 	}
 
-	/** Mark task as done
+	/**
+	 * Mark task as done
 	 */
 	public void markAsDone() {
 		this.isDone = true;
 	}
 
-	/** Unmark task as done
+	/**
+	 * Unmark task as done
 	 */
 	public void unmarkAsDone() {
 		this.isDone = false;
@@ -40,10 +45,10 @@ public class Task {
 
 	@Override
 	public String toString() {
-		String s = "[" 
-			+ this.getStatusIcon()
-			+ "] "
-			+ this.description;
+		String s = "["
+				+ this.getStatusIcon()
+				+ "] "
+				+ this.description;
 		return s;
 	}
 }
