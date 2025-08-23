@@ -3,6 +3,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Map;
@@ -128,17 +130,24 @@ public class Yappy {
 
 	private static void addDeadlineTask(String constructionString) throws YappyException {
 		String description = null;
-		String deadline = null;
+		String deadlineStr = null;
 		if (!constructionString.isBlank()) {
 			String[] parsedArgument = constructionString.split("/by ");
 			if (parsedArgument.length == 2) {
 				description = parsedArgument[0].trim();
-				deadline = parsedArgument[1].trim();
+				deadlineStr = parsedArgument[1].trim();
 			}
 		}
 
-		if (deadline != null) {
+		if (deadlineStr != null) {
 			DeadlineTask deadlineTask;
+			LocalDateTime deadline;
+			try {
+				deadline = LocalDateTime.parse(deadlineStr);
+			} catch (DateTimeParseException e) {
+				throw new YappyInputException("create a deadline task",
+						"deadline <description> /by <deadline (using a valid date and time format)>");
+			}
 			try {
 				deadlineTask = new DeadlineTask(description, deadline);
 			} catch (EmptyTaskDescriptionException e) {
@@ -146,14 +155,15 @@ public class Yappy {
 			}
 			storeTask(deadlineTask);
 		} else {
-			throw new YappyInputException("create a deadline task", "deadline <description> /by <deadline>");
+			throw new YappyInputException("create a deadline task",
+					"deadline <description> /by <deadline (using a valid date and time format)>");
 		}
 	}
 
 	private static void addEventTask(String constructionString) throws YappyException {
 		String description = null;
-		String from = null;
-		String to = null;
+		String fromStr = null;
+		String toStr = null;
 		if (!constructionString.isBlank()) {
 			String[] semiParsedArgument = constructionString.split("/from ");
 			if (semiParsedArgument.length == 2) {
@@ -163,14 +173,23 @@ public class Yappy {
 				String[] fromAndTo = fromAndToString.split("/to ");
 
 				if (fromAndTo.length == 2) {
-					from = fromAndTo[0].trim();
-					to = fromAndTo[1].trim();
+					fromStr = fromAndTo[0].trim();
+					toStr = fromAndTo[1].trim();
 				}
 			}
 		}
 
 		EventTask eventTask;
-		if (from != null && to != null) {
+		if (fromStr != null && toStr != null) {
+			LocalDateTime to;
+			LocalDateTime from;
+			try {
+				to = LocalDateTime.parse(toStr);
+				from = LocalDateTime.parse(fromStr);
+			} catch (DateTimeParseException e) {
+				throw new YappyInputException("create an event task",
+						"event <description> /from <start (using a valid date and time format)> /to <end (using a valid date and time format)>");
+			}
 			try {
 				eventTask = new EventTask(description, from, to);
 			} catch (EmptyTaskDescriptionException e) {
@@ -178,7 +197,8 @@ public class Yappy {
 			}
 			storeTask(eventTask);
 		} else {
-			throw new YappyInputException("create an event task", "event <description> /from <start> /to <end>");
+			throw new YappyInputException("create an event task",
+					"event <description> /from <start (using a valid date and time format)> /to <end (using a valid date and time format)>");
 		}
 	}
 
