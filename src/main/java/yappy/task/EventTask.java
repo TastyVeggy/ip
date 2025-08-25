@@ -1,5 +1,8 @@
+package yappy.task;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import yappy.task.exception.EmptyTaskDescriptionException;
 
 public class EventTask extends Task {
 	private LocalDateTime from;

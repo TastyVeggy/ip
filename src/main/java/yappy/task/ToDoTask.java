@@ -1,3 +1,7 @@
+package yappy.task;
+
+import yappy.task.exception.EmptyTaskDescriptionException;
+
 public class ToDoTask extends Task {
 
 	/**
