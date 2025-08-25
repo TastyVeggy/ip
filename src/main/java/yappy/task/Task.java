@@ -1,4 +1,7 @@
+package yappy.task;
 import java.io.Serializable;
+
+import yappy.task.exception.EmptyTaskDescriptionException;
 
 public class Task implements Serializable {
 	protected String description;
