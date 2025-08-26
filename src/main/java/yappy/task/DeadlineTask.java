@@ -1,8 +1,8 @@
 package yappy.task;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import yappy.task.exception.EmptyTaskDescriptionException;
+import yappy.util.DateTimeUtil;
 
 public class DeadlineTask extends Task {
 	private LocalDateTime deadline;
@@ -23,7 +23,7 @@ public class DeadlineTask extends Task {
 		String s = "[D]"
 				+ super.toString()
 				+ " (by: "
-				+ this.deadline.format(DateTimeFormatter.ofPattern("MMM d yyy, h:mm a"))
+				+ DateTimeUtil.format(this.deadline)
 				+ ")";
 		return s;
 	}

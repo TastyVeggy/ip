@@ -1,8 +1,8 @@
 package yappy.task;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import yappy.task.exception.EmptyTaskDescriptionException;
+import yappy.util.DateTimeUtil;
 
 public class EventTask extends Task {
 	private LocalDateTime from;
@@ -26,9 +26,9 @@ public class EventTask extends Task {
 		String s = "[E]"
 				+ super.toString()
 				+ " (from: "
-				+ this.from.format(DateTimeFormatter.ofPattern("MMM d yyyy, h:mm a"))
+				+ DateTimeUtil.format(this.from)
 				+ " to: "
-				+ this.to.format(DateTimeFormatter.ofPattern("MMM d yyyy, h:mm a"))
+				+ DateTimeUtil.format(this.to)
 				+ ")";
 		return s;
 	}
