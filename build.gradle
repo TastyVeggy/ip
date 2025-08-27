@@ -23,16 +23,16 @@ test {
         exceptionFormat "full"
         showCauses true
         showStackTraces true
-        showStandardStreams = false
+        showStandardStreams = true
     }
 }
 
 application {
-    mainClass.set("seedu.duke.Duke")
+    mainClass.set("yappy.ui.Yappy")
 }
 
 shadowJar {
-    archiveBaseName = "duke"
+    archiveBaseName = "yappy"
     archiveClassifier = null
 }
 
