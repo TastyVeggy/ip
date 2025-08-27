@@ -7,6 +7,16 @@ import yappy.task.TaskList;
 import yappy.task.exception.TaskListLoadBackupException;
 import yappy.task.exception.TaskListSaveBackupException;
 import yappy.util.UiUtil;
+
+/**
+ * Represents the all-important program, Yappy, a full-fledged task tracking
+ * application that supports the following types of tasks:
+ * <ul>
+ * <li>todo</li>
+ * <li>deadline</li>
+ * <li>event</li>
+ * </ul>
+ */
 public class Yappy {
 	public static void main(String[] args) {
 		UiUtil.printBreakLine();

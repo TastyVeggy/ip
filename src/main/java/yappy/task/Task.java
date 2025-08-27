@@ -3,6 +3,10 @@ import java.io.Serializable;
 
 import yappy.task.exception.EmptyTaskDescriptionException;
 
+/**
+ * Represents a task which has a description and can be marked or unmarked as
+ * done.
+ */
 public class Task implements Serializable {
 	protected String description;
 	protected boolean isDone;
@@ -26,7 +30,7 @@ public class Task implements Serializable {
 	 * " ".
 	 *
 	 * @param description The description of the task.
-	 * @return The status icon of the task
+	 * @return The status icon of the task.
 	 */
 	public String getStatusIcon() {
 		return (isDone ? "X" : " ");
@@ -46,6 +50,12 @@ public class Task implements Serializable {
 		this.isDone = false;
 	}
 
+	/**
+	 * Returns the string representation of the task, including its description
+	 * and status.
+	 * 
+	 * @return  The string representation of the task.
+	 */
 	@Override
 	public String toString() {
 		String s = "["
