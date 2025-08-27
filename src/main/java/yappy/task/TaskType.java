@@ -17,14 +17,16 @@ public enum TaskType {
         }
     },
     DEADLINE("<description> /by <deadline (datetime)>") {
-        private final Pattern pattern = Pattern.compile("^([a-zA-Z0-9_:\\-\\s]*)\\s+/by\\s+([a-zA-Z0-9_:\\-\\s]*)$");
+        private final Pattern pattern = Pattern.compile("^(.+?)\\s+/by\\s+(.+?)$");
 
         @Override
         public DeadlineTask create(String argStr) throws TaskException {
             Matcher matcher = pattern.matcher(argStr);
+            System.out.println(argStr);
             if (!matcher.matches()) {
                 throw new TaskInvalidArgsException(getArgsFormat());
             }
+            System.out.println("HI deadline task args");
 
             String description = matcher.group(1).trim();
             String by = matcher.group(2).trim();
@@ -38,7 +40,7 @@ public enum TaskType {
         }
     },
     EVENT("event <description> /from <start (datetime)> /to <end (datetime)>") {
-        private final Pattern pattern = Pattern.compile("^([a-zA-Z0-9_:\\-\\s]*)\\s+/from\\s+([a-zA-Z0-9_:\\-\\s]*)\\s+/to\\s+([a-zA-Z0-9_:\\-\\s]*)$");
+        private final Pattern pattern = Pattern.compile("^(.+?)\\s+/from\\s+(.+?)\\s+/to\\s+(.+?)$");
 
         public EventTask create(String argStr) throws TaskException {
             Matcher matcher = pattern.matcher(argStr);
