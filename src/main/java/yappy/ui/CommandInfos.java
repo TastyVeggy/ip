@@ -4,9 +4,8 @@ import yappy.task.TaskType;
 import yappy.util.DateTimeUtil;
 
 /**
- * Contains information of the commands supported by Yappy. Namely, the command
- * name, the action that the command aims to execute and the usage of the
- * command
+ * Contains information of the commands supported by Yappy. Namely, the command name, the action
+ * that the command aims to execute and the usage of the command
  */
 public class CommandInfos {
 
@@ -34,6 +33,9 @@ public class CommandInfos {
 
     public static final CommandInfo EVENT = new CommandInfo("event", "add event task",
             "event " + TaskType.EVENT.getArgsFormat() + generateDateTimeUsage());
+
+    public static final CommandInfo FIND =
+            new CommandInfo("find", "find tasks with given keyword", "find <keyword>");
 
 
     private static String generateDateTimeUsage() {

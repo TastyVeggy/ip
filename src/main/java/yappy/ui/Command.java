@@ -19,9 +19,8 @@ import yappy.ui.CommandInfos.CommandInfo;
 /**
  * Represents all user-executable commands in Yappy.
  * 
- * Each command encapsulates its execution. Execution consists of
- * processing user input, handling the business logic and how the output to user
- * is rendered.
+ * Each command encapsulates its execution. Execution consists of processing user input, handling
+ * the business logic and how the output to user is rendered.
  * 
  * Supported commands:
  * <ul>
@@ -168,6 +167,19 @@ public enum Command {
         public String execute(String argStr, TaskList taskList) throws YappyException {
             return executeTaskAddition(argStr, taskList, TaskType.EVENT, getCommandInfo());
         }
+    },
+    /**
+     * Find tasks from the task list using a given keyword.
+     * 
+     * Format :{@code find <keyword>}.
+     */
+    FIND(CommandInfos.FIND) {
+        public String execute(String argStr, TaskList taskList) throws YappyException {
+            if (argStr.isBlank()) {
+                throw new YappyInputException(getCommandInfo());
+            }
+            return taskList.getShortListWithKeyword(argStr).getListStr();
+        }
     };
 
     private CommandInfo commandInfo;
@@ -190,8 +202,7 @@ public enum Command {
      * commandInfo.name()}.
      * 
      * @param commandName The command name.
-     * @return An {@code Optional} containing the found command, or empty if not
-     * found.
+     * @return An {@code Optional} containing the found command, or empty if not found.
      */
     public static Optional<Command> fromName(String commandName) {
         return Arrays.stream(Command.values()).filter(c -> c.commandInfo.name().equals(commandName))
@@ -199,9 +210,8 @@ public enum Command {
     }
 
     /**
-     * Executes the command with the given argument string and task list.
-     * Execution involves parsing the raw argument string, handling the business
-     * logic and rendering the output.
+     * Executes the command with the given argument string and task list. Execution involves parsing
+     * the raw argument string, handling the business logic and rendering the output.
      * 
      * @param argStr The raw argument string.
      * @param taskList The current task list.

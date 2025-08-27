@@ -140,6 +140,24 @@ public class TaskList {
     }
 
     /**
+     * Returns a short list of tasks containing tasks with the desired keyword in the task
+     * description.
+     * 
+     * @param keyword Keyword for which we wish to search for in the task description
+     * @return Short-listed task
+     */
+    public TaskList getShortListWithKeyword(String keyword) {
+        TaskList TaskShortList = new TaskList();
+
+        for (Task task : this.tasks) {
+            if (task.containsInDescription(keyword)) {
+                TaskShortList.add(task);
+            }
+        }
+        return TaskShortList;
+    }
+
+    /**
      * Returns a string representation of the task list.
      * 
      * @return String representation of the task list.

@@ -5,8 +5,7 @@ import java.io.Serializable;
 import yappy.task.exception.EmptyTaskDescriptionException;
 
 /**
- * Represents a task which has a description and can be marked or unmarked as
- * done.
+ * Represents a task which has a description and can be marked or unmarked as done.
  */
 public class Task implements Serializable {
 	protected String description;
@@ -51,11 +50,15 @@ public class Task implements Serializable {
 	}
 
 	/**
-	 * Returns the string representation of the task, including its description
-	 * and status.
+	 * Returns whether description contains the given keyword
 	 * 
-	 * @return  The string representation of the task.
+	 * @param keyword Keyword to search in description
+	 * @return Whether description contains the given keyword
 	 */
+	public boolean containsInDescription(String keyword) {
+		return this.description.contains(keyword);
+	}
+
 	@Override
 	public String toString() {
 		String s = "[" + this.getStatusIcon() + "] " + this.description;
