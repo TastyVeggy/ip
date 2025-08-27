@@ -8,7 +8,8 @@ import yappy.task.exception.EmptyTaskDescriptionException;
 public class ToDoTask extends Task {
 
 	/**
-	 * Creates a ToDo which is essentially just a Task but the toString output is slightly different.
+	 * Creates a ToDo which is essentially just a Task but the toString output is slightly
+	 * different.
 	 *
 	 * @param description The description of the task.
 	 */
@@ -26,5 +27,4 @@ public class ToDoTask extends Task {
 		String s = "[T]" + super.toString();
 		return s;
 	}
-	
 }

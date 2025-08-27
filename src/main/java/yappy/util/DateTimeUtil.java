@@ -16,22 +16,24 @@ import java.util.List;
  */
 public final class DateTimeUtil {
 
-    private record Format(DateTimeFormatter formatter, String format, String example) {}
+    private record Format(DateTimeFormatter formatter, String format, String example) {
+    }
 
     private static final List<Format> SUPPORTED_FORMATS = List.of(
-        new Format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"),"dd-MM-yyyy HH:mm", "26-08-2025 15:00"),
-        new Format(DateTimeFormatter.ofPattern("MMM d yyyy, h:mm a"),"MMM d yyyy, h:mm a", "Aug 26 2025, 3:00 PM")
-    );
+            new Format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"), "dd-MM-yyyy HH:mm",
+                    "26-08-2025 15:00"),
+            new Format(DateTimeFormatter.ofPattern("MMM d yyyy, h:mm a"), "MMM d yyyy, h:mm a",
+                    "Aug 26 2025, 3:00 PM"));
 
     private DateTimeUtil() {
         throw new UnsupportedOperationException("Utility class");
     }
 
-    private static final DateTimeFormatter DEFAULT_OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM d yyyy, h:mm a");
-    
+    private static final DateTimeFormatter DEFAULT_OUTPUT_FORMAT =
+            DateTimeFormatter.ofPattern("MMM d yyyy, h:mm a");
+
     /**
-     * Formats a {@code LocalDateTime} object into the default string
-     * representation.
+     * Formats a {@code LocalDateTime} object into the default string representation.
      * 
      * @param dateTime The {@code LocalDateTime} object to format.
      * @return The default string representation.
@@ -41,13 +43,11 @@ public final class DateTimeUtil {
     }
 
     /**
-     * Parses a string into a {@code LocalDateTime} object if the format is
-     * supported.
+     * Parses a string into a {@code LocalDateTime} object if the format is supported.
      * 
      * @param input The date-time string to be parsed.
      * @return The parsed {@code LocalDateTime} object.
-     * @throws DateTimeParseException If the input does not match any supported
-     * format.
+     * @throws DateTimeParseException If the input does not match any supported format.
      */
     public static LocalDateTime parse(String input) throws DateTimeParseException {
         for (Format format : SUPPORTED_FORMATS) {
@@ -66,7 +66,7 @@ public final class DateTimeUtil {
      */
     public static List<String> getUsageForSupportedFormats() {
         return SUPPORTED_FORMATS.stream()
-            .map(f -> String.format(f.format + " (E.g.: " + f.example + ")"))
-            .toList();
+                .map(f -> String.format(f.format + " (E.g.: " + f.example + ")")).toList();
     }
 }
+

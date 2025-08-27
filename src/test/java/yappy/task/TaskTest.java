@@ -43,5 +43,4 @@ public class TaskTest {
         task.markAsDone();
         assertEquals("X", task.getStatusIcon());
     }
-
 }

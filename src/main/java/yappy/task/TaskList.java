@@ -31,37 +31,38 @@ public class TaskList {
      * 
      * @param filepath Filepath of the backup file.
      * @return The task lists created from the backup file.
-     * @throws TaskListLoadBackupException If there is error in loading task
-     * list from the backup file.
+     * @throws TaskListLoadBackupException If there is error in loading task list from the backup
+     *         file.
      */
     public static TaskList usingBackup(String filepath) throws TaskListLoadBackupException {
         TaskList tasks = new TaskList();
-		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filepath))) {
-			@SuppressWarnings("unchecked")
-			ArrayList<Task> loadedTasks = (ArrayList<Task>) in.readObject();
-			for (Task task : loadedTasks) {
-				tasks.add(task);
-			}
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filepath))) {
+            @SuppressWarnings("unchecked")
+            ArrayList<Task> loadedTasks = (ArrayList<Task>) in.readObject();
+            for (Task task : loadedTasks) {
+                tasks.add(task);
+            }
             return tasks;
-		} catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             throw new TaskListLoadBackupException(e, filepath);
-		}
+        }
     }
 
     /**
      * Save TaskList in a backup file so it can be restored in the future.
      * 
      * @param filepath Filepath of the backup file.
-     * @throws TaskListSaveBackupException If there is an error in saving the
-     * task list into the backup file.
+     * @throws TaskListSaveBackupException If there is an error in saving the task list into the
+     *         backup file.
      */
-    public void save(String filepath) throws TaskListSaveBackupException { try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filepath))) {
-			out.writeObject(tasks);
-		} catch (IOException e) {
+    public void save(String filepath) throws TaskListSaveBackupException {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filepath))) {
+            out.writeObject(tasks);
+        } catch (IOException e) {
             throw new TaskListSaveBackupException(e);
-		}
+        }
     }
-    
+
 
     /**
      * Add a Task into the task list.
@@ -86,22 +87,22 @@ public class TaskList {
      * 
      * @param index Index of the Task to be marked with one-based indexing.
      * @return The Task after it is marked.
-     * @throws TaskNotFoundException If the index is out of bounds and no
-     * corresponding task can be found.
+     * @throws TaskNotFoundException If the index is out of bounds and no corresponding task can be
+     *         found.
      */
     public Task markTask(int index) throws TaskNotFoundException {
         Task task = getTask(index);
         task.markAsDone();
         return task;
-   }
+    }
 
     /**
      * Unmark a Task as done (ie. Mark it as undone).
      * 
      * @param index Index of the Task to be unmarked with one-based indexing.
      * @return The Task after it is unmarked.
-     * @throws TaskNotFoundException If the index is out of bounds and no
-     * corresponding task can be found.
+     * @throws TaskNotFoundException If the index is out of bounds and no corresponding task can be
+     *         found.
      */
     public Task unmarkTask(int index) throws TaskNotFoundException {
         Task task = getTask(index);
@@ -114,8 +115,8 @@ public class TaskList {
      * 
      * @param index Index of the Task to be deleted with one-based indexing.
      * @return The Task that has been deleted.
-     * @throws TaskNotFoundException If the index is out of bounds and no
-     * corresponding task can be found.
+     * @throws TaskNotFoundException If the index is out of bounds and no corresponding task can be
+     *         found.
      */
     public Task deleteTask(int index) throws TaskNotFoundException {
         Task task = getTask(index);
@@ -128,8 +129,8 @@ public class TaskList {
      * 
      * @param index Index of the Task to be returned with one-based indexing.
      * @return The Task that has been selected.
-     * @throws TaskNotFoundException If the index is out of bounds and no
-     * corresponding task can be found.
+     * @throws TaskNotFoundException If the index is out of bounds and no corresponding task can be
+     *         found.
      */
     public Task getTask(int index) throws TaskNotFoundException {
         if (index > tasks.size() || index <= 0) {
@@ -143,7 +144,7 @@ public class TaskList {
      * 
      * @return String representation of the task list.
      */
-    public String getListStr()  {
+    public String getListStr() {
         String s = "";
         for (int i = 0; i < tasks.size(); i++) {
             s += String.format("%d.%s", i + 1, tasks.get(i));

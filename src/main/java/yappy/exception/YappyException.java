@@ -1,8 +1,7 @@
 package yappy.exception;
 
 /**
- * Represents an exception thrown to indicate an error specific to Yappy
- * application.
+ * Represents an exception thrown to indicate an error specific to Yappy application.
  * 
  * Exception messages are automatically prefixed with "Yappy cannot yap!!!".
  */

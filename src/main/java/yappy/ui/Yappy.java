@@ -1,4 +1,5 @@
 package yappy.ui;
+
 import java.util.Scanner;
 
 import yappy.Constants;
@@ -9,8 +10,8 @@ import yappy.task.exception.TaskListSaveBackupException;
 import yappy.util.UiUtil;
 
 /**
- * Represents the all-important program, Yappy, a full-fledged task tracking
- * application that supports the following types of tasks:
+ * Represents the all-important program, Yappy, a full-fledged task tracking application that
+ * supports the following types of tasks:
  * <ul>
  * <li>todo</li>
  * <li>deadline</li>
@@ -27,9 +28,7 @@ public class Yappy {
 	}
 
 	private static void greet() {
-		String greeting = Constants.LOGO + "\n"
-				+ "Hello! I'm Yappy\n"
-				+ "What can I do for you?";
+		String greeting = Constants.LOGO + "\n" + "Hello! I'm Yappy\n" + "What can I do for you?";
 		System.out.println(greeting);
 	}
 
@@ -67,30 +66,25 @@ public class Yappy {
 
 			UiUtil.printBreakLine();
 
-			Command.fromName(commandName)
-				.map(cmd -> {
-					try {
-						return cmd.execute(argStr, taskList);
-					} catch (YappyException e) {
-						return e.getMessage();
-					}
-				})
-				.ifPresentOrElse(
-					result -> {
-						System.out.println(result);
-						try{
-							taskList.save(Constants.TASKS_SAVE_FILE);
-						} catch (TaskListSaveBackupException e) {
-							System.out.println(e.getMessage());
-						}
-					},
-					() -> {
-						System.out.println("Unkown command. Supported commands are:");
-						for (Command validCommand : Command.values()) {
-							System.out.println(" - " + validCommand.getCommandInfo().name());
-						}
-					}
-				);
+			Command.fromName(commandName).map(cmd -> {
+				try {
+					return cmd.execute(argStr, taskList);
+				} catch (YappyException e) {
+					return e.getMessage();
+				}
+			}).ifPresentOrElse(result -> {
+				System.out.println(result);
+				try {
+					taskList.save(Constants.TASKS_SAVE_FILE);
+				} catch (TaskListSaveBackupException e) {
+					System.out.println(e.getMessage());
+				}
+			}, () -> {
+				System.out.println("Unkown command. Supported commands are:");
+				for (Command validCommand : Command.values()) {
+					System.out.println(" - " + validCommand.getCommandInfo().name());
+				}
+			});
 
 
 			if (commandName.equals(Command.EXIT.getCommandInfo().name())) {

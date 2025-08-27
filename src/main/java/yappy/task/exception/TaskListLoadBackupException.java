@@ -13,12 +13,10 @@ public class TaskListLoadBackupException extends TaskException {
      * @param filepath Filepath of the backup file.
      */
     public TaskListLoadBackupException(Exception e, String filepath) {
-        super(
-                "Unable to restore tasks due to: " + e.getMessage()
-                        + "\n\nThere may have been no previous instance of this program or the "
-                        + filepath 
-                        + " file has been deleted.");
+        super("Unable to restore tasks due to: " + e.getMessage()
+                + "\n\nThere may have been no previous instance of this program or the " + filepath
+                + " file has been deleted.");
 
     }
-    
+
 }

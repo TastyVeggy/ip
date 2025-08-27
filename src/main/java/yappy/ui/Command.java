@@ -50,8 +50,7 @@ public enum Command {
         }
 
         private String render(TaskList taskList) {
-            return "Here are the tasks in your list:\n" 
-                    + taskList.getListStr();
+            return "Here are the tasks in your list:\n" + taskList.getListStr();
         }
     },
     /**
@@ -72,7 +71,7 @@ public enum Command {
             try {
                 Task task = taskList.markTask(index);
                 return "Nice! I've marked this task as done:\n" + task;
-            } catch(TaskNotFoundException e) {
+            } catch (TaskNotFoundException e) {
                 throw new YappyException(e.getMessage());
             }
         }
@@ -94,11 +93,10 @@ public enum Command {
             int index = Integer.parseInt(matcher.group(1));
             try {
                 Task deletedTask = taskList.deleteTask(index);
-                String s = "Noted, I've removed this task:\n " 
-                        + deletedTask
-                        + String.format("%nNow you have %d tasks in this list.%n", taskList.getSize());
+                String s = "Noted, I've removed this task:\n " + deletedTask + String
+                        .format("%nNow you have %d tasks in this list.%n", taskList.getSize());
                 return s;
-            } catch(TaskNotFoundException e) {
+            } catch (TaskNotFoundException e) {
                 throw new YappyException(e.getMessage());
             }
         }
@@ -148,11 +146,7 @@ public enum Command {
      */
     TODO(CommandInfos.TODO) {
         public String execute(String argStr, TaskList taskList) throws YappyException {
-            return executeTaskAddition(
-                argStr,
-                taskList,
-                TaskType.TODO,
-                getCommandInfo());
+            return executeTaskAddition(argStr, taskList, TaskType.TODO, getCommandInfo());
         }
     },
     /**
@@ -162,11 +156,7 @@ public enum Command {
      */
     DEADLINE(CommandInfos.DEADLINE) {
         public String execute(String argStr, TaskList taskList) throws YappyException {
-            return executeTaskAddition(
-                argStr,
-                taskList,
-                TaskType.DEADLINE,
-                getCommandInfo());
+            return executeTaskAddition(argStr, taskList, TaskType.DEADLINE, getCommandInfo());
         }
     },
     /**
@@ -176,11 +166,7 @@ public enum Command {
      */
     EVENT(CommandInfos.EVENT) {
         public String execute(String argStr, TaskList taskList) throws YappyException {
-            return executeTaskAddition(
-                argStr,
-                taskList,
-                TaskType.EVENT,
-                getCommandInfo());
+            return executeTaskAddition(argStr, taskList, TaskType.EVENT, getCommandInfo());
         }
     };
 
@@ -208,9 +194,8 @@ public enum Command {
      * found.
      */
     public static Optional<Command> fromName(String commandName) {
-        return Arrays.stream(Command.values())
-            .filter(c -> c.commandInfo.name().equals(commandName))
-            .findFirst();
+        return Arrays.stream(Command.values()).filter(c -> c.commandInfo.name().equals(commandName))
+                .findFirst();
     }
 
     /**
@@ -225,24 +210,24 @@ public enum Command {
      */
     public abstract String execute(String argStr, TaskList taskList) throws YappyException;
 
-    private static String executeTaskAddition(String argStr, TaskList taskList, TaskType taskType, CommandInfo commandUsage) throws YappyException {
-            Task task;
-            try {
-                task = taskType.create(argStr);
-            } catch (TaskInvalidArgsException e) {
-                throw new YappyInputException(commandUsage);
-            } catch (TaskException e) {
-                throw new YappyException(e.getMessage());
-            }
-            taskList.add(task);
-            String s = "Got it. I've added this task:\n " 
-                    + task
-                    + String.format("\nNow you have %d task", taskList.getSize());
-            if (taskList.getSize() > 1) {
-                s += "s";
-            }
+    private static String executeTaskAddition(String argStr, TaskList taskList, TaskType taskType,
+            CommandInfo commandUsage) throws YappyException {
+        Task task;
+        try {
+            task = taskType.create(argStr);
+        } catch (TaskInvalidArgsException e) {
+            throw new YappyInputException(commandUsage);
+        } catch (TaskException e) {
+            throw new YappyException(e.getMessage());
+        }
+        taskList.add(task);
+        String s = "Got it. I've added this task:\n " + task
+                + String.format("\nNow you have %d task", taskList.getSize());
+        if (taskList.getSize() > 1) {
+            s += "s";
+        }
 
-            s += " in the list.";
-            return s;
+        s += " in the list.";
+        return s;
     }
 }

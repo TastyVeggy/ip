@@ -12,6 +12,7 @@ public class TaskListSaveBackupException extends TaskException {
      * to the backup file to be unsuccessful.
      */
     public TaskListSaveBackupException(Exception e) {
-        super( "Unable to backup tasks due to: " + e.getMessage() + "\n\nFuture instances of this program may not have the most updated task list");
+        super("Unable to backup tasks due to: " + e.getMessage()
+                + "\n\nFuture instances of this program may not have the most updated task list");
     }
 }

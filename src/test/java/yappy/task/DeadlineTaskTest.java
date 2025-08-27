@@ -14,8 +14,9 @@ public class DeadlineTaskTest {
     private DeadlineTask task;
 
     @BeforeEach
-    void setUp() throws EmptyTaskDescriptionException{
-        this.task = new DeadlineTask("Dummy deadline task", LocalDateTime.parse("2000-01-01T23:59:59"));
+    void setUp() throws EmptyTaskDescriptionException {
+        this.task =
+                new DeadlineTask("Dummy deadline task", LocalDateTime.parse("2000-01-01T23:59:59"));
     }
 
     @Test

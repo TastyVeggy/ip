@@ -67,7 +67,8 @@ public enum TaskType {
      * Format: {@code <description> /from <start (datetime)> /to <end (datetime)>}.
      */
     EVENT("<description> /from <start (datetime)> /to <end (datetime)>") {
-        private final Pattern pattern = Pattern.compile("^(.+?)\\s+/from\\s+(.+?)\\s+/to\\s+(.+?)$");
+        private final Pattern pattern =
+                Pattern.compile("^(.+?)\\s+/from\\s+(.+?)\\s+/to\\s+(.+?)$");
 
         public EventTask create(String argStr) throws TaskException {
             Matcher matcher = pattern.matcher(argStr);
@@ -89,6 +90,7 @@ public enum TaskType {
             }
         }
     };
+
     private final String argsFormat;
 
     private TaskType(String argsFormat) {

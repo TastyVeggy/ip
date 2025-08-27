@@ -1,8 +1,7 @@
 package yappy.task.exception;
 
 /**
- * Represents an exception thrown to indicate that empty description has been
- * given to a task.
+ * Represents an exception thrown to indicate that empty description has been given to a task.
  */
 public class EmptyTaskDescriptionException extends TaskException {
 
@@ -12,5 +11,4 @@ public class EmptyTaskDescriptionException extends TaskException {
     public EmptyTaskDescriptionException() {
         super("The description of a task cannot be empty!!!");
     }
-    
 }
