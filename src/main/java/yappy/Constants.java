@@ -1,5 +1,8 @@
 package yappy;
 
+/**
+ * Constants class consisting of constants used by Yappy application.
+ */
 public class Constants {
 	public static final String LOGO = "__   __                      \n"
 			+ "\\ \\ / /_ _ _ __  _ __  _   _ \n"

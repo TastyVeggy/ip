@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import yappy.task.exception.EmptyTaskDescriptionException;
 import yappy.util.DateTimeUtil;
 
+/**
+ * Represents a task with a deadline
+ */
 public class DeadlineTask extends Task {
 	private LocalDateTime deadline;
 
@@ -18,6 +21,12 @@ public class DeadlineTask extends Task {
 		this.deadline = deadline;
 	}
 
+	/**
+	 * Returns the string representation of the deadline task, including its task
+	 * type and deadline.
+	 * 
+	 * @return  The string representation of the deadline task.
+	 */
 	@Override
 	public String toString() {
 		String s = "[D]"

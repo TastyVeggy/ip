@@ -3,6 +3,11 @@ package yappy.ui;
 import yappy.task.TaskType;
 import yappy.util.DateTimeUtil;
 
+/**
+ * Contains information of the commands supported by Yappy. Namely, the command
+ * name, the action that the command aims to execute and the usage of the
+ * command
+ */
 public class CommandInfos {
 
     public record CommandInfo(String name, String action, String usage) {}

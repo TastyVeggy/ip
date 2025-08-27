@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import yappy.task.exception.EmptyTaskDescriptionException;
 import yappy.util.DateTimeUtil;
 
+/**
+ * Represents a task which has a start time and end time.
+ */
 public class EventTask extends Task {
 	private LocalDateTime from;
 	private LocalDateTime to;
@@ -21,6 +24,12 @@ public class EventTask extends Task {
 		this.to = to;
 	}
 
+	/**
+	 * Returns the string representation of the event task, including its task
+	 * type, start and end.
+	 * 
+	 * @return  The string representation of the event task.
+	 */
 	@Override
 	public String toString() {
 		String s = "[E]"
