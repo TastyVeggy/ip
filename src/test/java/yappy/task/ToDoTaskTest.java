@@ -13,7 +13,7 @@ public class ToDoTaskTest {
     private ToDoTask task;
 
     @BeforeEach
-    void setUp() throws EmptyTaskDescriptionException{
+    void setUp() throws EmptyTaskDescriptionException {
         this.task = new ToDoTask("Dummy todo task");
     }
 
@@ -22,5 +22,5 @@ public class ToDoTaskTest {
         assertNotNull(task);
         assertEquals("[T][ ] Dummy deadline task", task.toString());
     }
-    
+
 }

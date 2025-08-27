@@ -69,19 +69,22 @@ public class TaskTypeTest {
         assertTrue(task instanceof EventTask);
 
         EventTask eventTask = (EventTask) task;
-        assertEquals("[E][ ] Dummy event (from: Jan 1 2000, 11:59 PM to: Nov 1 2000, 11:00 AM)", eventTask.toString());
+        assertEquals("[E][ ] Dummy event (from: Jan 1 2000, 11:59 PM to: Nov 1 2000, 11:00 AM)",
+                eventTask.toString());
     }
 
     @Test
     void testEventCreateInvalidFormat() {
         // Missing /from delimiter
-        String inputWithoutFrom = "Event missing from Jan 1 2000, 11:59 PM /to Nov 1 2000, 11:00 AM";
+        String inputWithoutFrom =
+                "Event missing from Jan 1 2000, 11:59 PM /to Nov 1 2000, 11:00 AM";
         assertThrows(TaskInvalidArgsException.class, () -> {
             TaskType.EVENT.create(inputWithoutFrom);
         });
-        
+
         // Missing /to delimiter
-        String inputWithoutTo = "Event missing to /from Jan 1 2000, 11:59 PM to Nov 1 2000, 11:00 AM";
+        String inputWithoutTo =
+                "Event missing to /from Jan 1 2000, 11:59 PM to Nov 1 2000, 11:00 AM";
         assertThrows(TaskInvalidArgsException.class, () -> {
             TaskType.EVENT.create(inputWithoutTo);
         });

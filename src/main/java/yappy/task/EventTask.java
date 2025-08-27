@@ -1,4 +1,5 @@
 package yappy.task;
+
 import java.time.LocalDateTime;
 
 import yappy.task.exception.EmptyTaskDescriptionException;
@@ -12,10 +13,11 @@ public class EventTask extends Task {
 	 * Creates an Event, which is a Task with a from-to time period)
 	 *
 	 * @param description The description of the event.
-	 * @param from        The start of event.
-	 * @param to          The end of event.
+	 * @param from The start of event.
+	 * @param to The end of event.
 	 */
-	public EventTask(String description, LocalDateTime from, LocalDateTime to) throws EmptyTaskDescriptionException {
+	public EventTask(String description, LocalDateTime from, LocalDateTime to)
+			throws EmptyTaskDescriptionException {
 		super(description);
 		this.from = from;
 		this.to = to;
@@ -23,13 +25,8 @@ public class EventTask extends Task {
 
 	@Override
 	public String toString() {
-		String s = "[E]"
-				+ super.toString()
-				+ " (from: "
-				+ DateTimeUtil.format(this.from)
-				+ " to: "
-				+ DateTimeUtil.format(this.to)
-				+ ")";
+		String s = "[E]" + super.toString() + " (from: " + DateTimeUtil.format(this.from) + " to: "
+				+ DateTimeUtil.format(this.to) + ")";
 		return s;
 	}
 
