@@ -22,11 +22,9 @@ public enum TaskType {
         @Override
         public DeadlineTask create(String argStr) throws TaskException {
             Matcher matcher = pattern.matcher(argStr);
-            System.out.println(argStr);
             if (!matcher.matches()) {
                 throw new TaskInvalidArgsException(getArgsFormat());
             }
-            System.out.println("HI deadline task args");
 
             String description = matcher.group(1).trim();
             String by = matcher.group(2).trim();
