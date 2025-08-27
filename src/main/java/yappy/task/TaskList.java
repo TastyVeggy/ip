@@ -162,7 +162,8 @@ public class TaskList {
      * 
      * @return String representation of the task list.
      */
-    public String getListStr() {
+    @Override
+    public String toString() {
         String s = "";
         for (int i = 0; i < tasks.size(); i++) {
             s += String.format("%d.%s", i + 1, tasks.get(i));

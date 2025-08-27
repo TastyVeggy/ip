@@ -49,7 +49,7 @@ public enum Command {
         }
 
         private String render(TaskList taskList) {
-            return "Here are the tasks in your list:\n" + taskList.getListStr();
+            return "Here are the tasks in your list:\n" + taskList;
         }
     },
     /**
@@ -178,7 +178,7 @@ public enum Command {
             if (argStr.isBlank()) {
                 throw new YappyInputException(getCommandInfo());
             }
-            return taskList.getShortListWithKeyword(argStr).getListStr();
+            return taskList.getShortListWithKeyword(argStr).toString();
         }
     };
 
