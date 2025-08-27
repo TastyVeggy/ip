@@ -1,4 +1,5 @@
 package yappy.task;
+
 import java.io.Serializable;
 
 import yappy.task.exception.EmptyTaskDescriptionException;
@@ -21,9 +22,8 @@ public class Task implements Serializable {
 	}
 
 	/**
-	 * Returns the icon corresponding to the status of the task. Task which
-	 * are done returns the "X" icon, while tasks which are not done returns
-	 * " ".
+	 * Returns the icon corresponding to the status of the task. Task which are done returns the "X"
+	 * icon, while tasks which are not done returns " ".
 	 *
 	 * @param description The description of the task.
 	 * @return The status icon of the task
@@ -46,12 +46,19 @@ public class Task implements Serializable {
 		this.isDone = false;
 	}
 
+	/**
+	 * Returns whether description contains the given keyword
+	 * 
+	 * @param keyword Keyword to search in description
+	 * @return Whether description contains the given keyword
+	 */
+	public boolean containsInDescription(String keyword) {
+		return this.description.contains(keyword);
+	}
+
 	@Override
 	public String toString() {
-		String s = "["
-				+ this.getStatusIcon()
-				+ "] "
-				+ this.description;
+		String s = "[" + this.getStatusIcon() + "] " + this.description;
 		return s;
 	}
 }

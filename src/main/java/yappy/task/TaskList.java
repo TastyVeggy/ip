@@ -22,23 +22,24 @@ public class TaskList {
 
     public static TaskList usingBackup(String filepath) throws TaskListLoadBackupException {
         TaskList tasks = new TaskList();
-		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filepath))) {
-			@SuppressWarnings("unchecked")
-			ArrayList<Task> loadedTasks = (ArrayList<Task>) in.readObject();
-			for (Task task : loadedTasks) {
-				tasks.add(task);
-			}
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filepath))) {
+            @SuppressWarnings("unchecked")
+            ArrayList<Task> loadedTasks = (ArrayList<Task>) in.readObject();
+            for (Task task : loadedTasks) {
+                tasks.add(task);
+            }
             return tasks;
-		} catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             throw new TaskListLoadBackupException(e, filepath);
-		}
+        }
     }
 
-    public void save(String filepath) throws TaskListSaveBackupException { try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filepath))) {
-			out.writeObject(tasks);
-		} catch (IOException e) {
+    public void save(String filepath) throws TaskListSaveBackupException {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filepath))) {
+            out.writeObject(tasks);
+        } catch (IOException e) {
             throw new TaskListSaveBackupException(e);
-		}
+        }
     }
 
     public void add(Task task) {
@@ -53,7 +54,7 @@ public class TaskList {
         Task task = getTask(index);
         task.markAsDone();
         return task;
-   }
+    }
 
     public Task unmarkTask(int index) throws TaskNotFoundException {
         Task task = getTask(index);
@@ -74,7 +75,25 @@ public class TaskList {
         return tasks.get(index - 1);
     }
 
-    public String getListStr()  {
+    /**
+     * Returns a short list of tasks containing tasks with the desired keyword in the task
+     * description.
+     * 
+     * @param keyword Keyword for which we wish to search for in the task description
+     * @return Short-listed task
+     */
+    public TaskList getShortListWithKeyword(String keyword) {
+        TaskList TaskShortList = new TaskList();
+
+        for (Task task : this.tasks) {
+            if (task.containsInDescription(keyword)) {
+                TaskShortList.add(task);
+            }
+        }
+        return TaskShortList;
+    }
+
+    public String getListStr() {
         String s = "";
         for (int i = 0; i < tasks.size(); i++) {
             s += String.format("%d.%s", i + 1, tasks.get(i));
