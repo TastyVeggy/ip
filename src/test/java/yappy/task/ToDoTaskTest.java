@@ -18,9 +18,9 @@ public class ToDoTaskTest {
     }
 
     @Test
-    void testConstructorCreatesDeadlineTaskSuccessfully() {
+    void testConstructorCreatesTodoTaskSuccessfully() {
         assertNotNull(task);
-        assertEquals("[T][ ] Dummy deadline task", task.toString());
+        assertEquals("[T][ ] Dummy todo task", task.toString());
     }
 
 }

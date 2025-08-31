@@ -20,8 +20,10 @@ public class EventTaskTest {
     }
 
     @Test
-    void testConstructorCreatesDeadlineTaskSuccessfully() {
+    void testConstructorCreatesEventTaskSuccessfully() {
         assertNotNull(task);
-        assertEquals("[D][ ] Dummy deadline task (by: Jan 1 2000, 11:59 PM)", task.toString());
+        assertEquals(
+                "[E][ ] Dummy event task (from: Jan 1 2000, 11:59 PM to: Jan 2 2000, 11:59 PM)",
+                task.toString());
     }
 }
