@@ -18,7 +18,7 @@ public class ToDoTaskTest {
     }
 
     @Test
-    void testConstructorCreatesTodoTaskSuccessfully() {
+    void constructor_correctArgs_success() {
         assertNotNull(task);
         assertEquals("[T][ ] Dummy todo task", task.toString());
     }

@@ -19,13 +19,13 @@ public class TaskTest {
     }
 
     @Test
-    void testConstructorCreatesTaskSuccessfully() {
+    void constructor_nonEmptyDescription_success() {
         assertNotNull(task);
         assertEquals("[ ] Dummy task", task.toString());
     }
 
     @Test
-    void testConstructorThrowsExceptionOnEmptyOrNullDescription() {
+    void constructor_emptyDescription_exceptionThrown() {
         assertThrows(EmptyTaskDescriptionException.class, () -> {
             new ToDoTask("");
         });
@@ -35,7 +35,7 @@ public class TaskTest {
     }
 
     @Test
-    void testMarkAndUnmarkTask() {
+    void testMarkAndUnmark() {
         task.markAsDone();
         assertEquals("X", task.getStatusIcon());
         task.unmarkAsDone();

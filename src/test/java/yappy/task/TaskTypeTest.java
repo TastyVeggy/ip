@@ -13,14 +13,14 @@ public class TaskTypeTest {
 
     // Todo tests
     @Test
-    void testTodoCreateValid() throws Exception {
+    void todoCreate_correctArgs_success() throws Exception {
         Task task = TaskType.TODO.create("Dummy task");
         assertTrue(task instanceof ToDoTask);
         assertEquals("[T][ ] Dummy task", task.toString());
     }
 
     @Test
-    void testTodoCreateEmptyDescription() {
+    void todoCreate_emptyDescription_exceptionThrown() {
         assertThrows(EmptyTaskDescriptionException.class, () -> {
             TaskType.TODO.create("");
         });
@@ -28,7 +28,7 @@ public class TaskTypeTest {
 
     // Deadline tests
     @Test
-    void testDeadlineCreateValid() throws Exception {
+    void deadlineCreate_correctArgs_success() throws Exception {
         String input = "Dummy deadline task /by Jan 1 2000, 11:59 PM";
         Task task = TaskType.DEADLINE.create(input);
         assertTrue(task instanceof DeadlineTask);
@@ -37,7 +37,7 @@ public class TaskTypeTest {
     }
 
     @Test
-    void testDeadlineCreateInvalidFormat() {
+    void deadlineCreate_invalidArgsFormat_exceptionThrown() {
         // Missing "/by"
         String input = "Deadline task without by delimiter Jan 1 2000, 11:59 PM";
         assertThrows(TaskInvalidArgsException.class, () -> {
@@ -46,7 +46,7 @@ public class TaskTypeTest {
     }
 
     @Test
-    void testDeadlineCreateInvalidDate() {
+    void deadlineCreate_invalidDate_exceptionThrown() {
         String input = "Deadline task with invalid date /by invalid-date";
         assertThrows(TaskInvalidArgsException.class, () -> {
             TaskType.DEADLINE.create(input);
@@ -54,7 +54,7 @@ public class TaskTypeTest {
     }
 
     @Test
-    void testDeadlineCreateEmptyDescription() {
+    void deadlineCreate_emptyDescription_exceptionThrown() {
         String input = "/by Jan 1 2000, 11:59 PM";
         assertThrows(TaskInvalidArgsException.class, () -> {
             TaskType.DEADLINE.create(input);
@@ -63,7 +63,7 @@ public class TaskTypeTest {
 
     // Event tests
     @Test
-    void testEventCreateValid() throws Exception {
+    void eventCreate_correctArgs_success() throws Exception {
         String input = "Dummy event /from Jan 1 2000, 11:59 PM /to Nov 1 2000, 11:00 AM";
         Task task = TaskType.EVENT.create(input);
         assertTrue(task instanceof EventTask);
@@ -74,7 +74,7 @@ public class TaskTypeTest {
     }
 
     @Test
-    void testEventCreateInvalidFormat() {
+    void eventCreate_invalidArgsFormat_exceptionThrown() {
         // Missing /from delimiter
         String inputWithoutFrom =
                 "Event missing from Jan 1 2000, 11:59 PM /to Nov 1 2000, 11:00 AM";
@@ -91,7 +91,7 @@ public class TaskTypeTest {
     }
 
     @Test
-    void testEventCreateInvalidDates() {
+    void eventCreate_invalidDate_exceptionThrown() {
         String input = "Conference /from invalid-date /to invalid-date";
         assertThrows(TaskInvalidArgsException.class, () -> {
             TaskType.EVENT.create(input);
@@ -99,7 +99,7 @@ public class TaskTypeTest {
     }
 
     @Test
-    void testEventCreateEmptyDescription() {
+    void eventCreate_emptyDescription_exceptionThrown() {
         String input = "/from Jan 1 2000, 11:59 PM /to Jan 2 2000, 11:59 PM";
         assertThrows(TaskInvalidArgsException.class, () -> {
             TaskType.DEADLINE.create(input);

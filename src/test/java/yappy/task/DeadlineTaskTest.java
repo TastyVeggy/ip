@@ -20,7 +20,7 @@ public class DeadlineTaskTest {
     }
 
     @Test
-    void testConstructorCreatesDeadlineTaskSuccessfully() {
+    void constructor_correctArgs_success() {
         assertNotNull(task);
         assertEquals("[D][ ] Dummy deadline task (by: Jan 1 2000, 11:59 PM)", task.toString());
     }

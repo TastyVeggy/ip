@@ -20,7 +20,7 @@ public class EventTaskTest {
     }
 
     @Test
-    void testConstructorCreatesEventTaskSuccessfully() {
+    void constructor_correctArgs_success() {
         assertNotNull(task);
         assertEquals(
                 "[E][ ] Dummy event task (from: Jan 1 2000, 11:59 PM to: Jan 2 2000, 11:59 PM)",
