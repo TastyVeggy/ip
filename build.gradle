@@ -47,8 +47,8 @@ test {
 }
 
 application {
-    mainClass.set("yappy.ui.Yappy")
-    // mainClass.set("yappy.ui.gui.Launcher")
+    // mainClass.set("yappy.ui.Yappy")
+    mainClass.set("yappy.ui.gui.Launcher")
 }
 
 shadowJar {

@@ -1,5 +1,6 @@
 package yappy.ui.gui;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -49,6 +50,10 @@ public class MainWindow extends AnchorPane {
         String input = userInput.getText();
         String response = yappy.interact(input);
         String commandName = yappy.getCommandName();
+        // TODO: make this bye not hardcoded
+        if (commandName.equals("bye")) {
+            Platform.exit();
+        }
         dialogContainer.getChildren().addAll(DialogBox.getUserDialog(input, userImage),
                 DialogBox.getYappyDialog(response, yappyImage, commandName));
         userInput.clear();
