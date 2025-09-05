@@ -18,10 +18,10 @@ import yappy.ui.CommandInfos.CommandInfo;
 
 /**
  * Represents all user-executable commands in Yappy.
- * 
+ *
  * Each command encapsulates its execution. Execution consists of processing user input, handling
  * the business logic and how the output to user is rendered.
- * 
+ *
  * Supported commands:
  * <ul>
  * <li>list</li>
@@ -37,10 +37,12 @@ import yappy.ui.CommandInfos.CommandInfo;
 public enum Command {
     /**
      * Displays all tasks in the current task list.
-     * 
+     *
      * Format: {@code list}.
      */
     LIST(CommandInfos.LIST) {
+
+        @Override
         public String execute(String argStr, TaskList taskList) throws YappyException {
             if (!argStr.isBlank()) {
                 throw new YappyInputException(getCommandInfo());
@@ -54,10 +56,12 @@ public enum Command {
     },
     /**
      * Mark a task within the task list as done.
-     * 
+     *
      * Format: {@code mark <task index>}.
      */
     MARK(CommandInfos.MARK) {
+
+        @Override
         public String execute(String argStr, TaskList taskList) throws YappyException {
             final Pattern pattern = Pattern.compile("^(\\d+)$");
 
@@ -77,10 +81,12 @@ public enum Command {
     },
     /**
      * Delete a task within the task list.
-     * 
+     *
      * Format: {@code delete <task index>}.
      */
     DELETE(CommandInfos.DELETE) {
+
+        @Override
         public String execute(String argStr, TaskList taskList) throws YappyException {
             final Pattern pattern = Pattern.compile("^(\\d+)$");
 
@@ -102,10 +108,12 @@ public enum Command {
     },
     /**
      * Unmark a task within the task list as done.
-     * 
+     *
      * Format: {@code unmark <task index>}.
      */
     UNMARK(CommandInfos.UNMARK) {
+
+        @Override
         public String execute(String argStr, TaskList taskList) throws YappyException {
             final Pattern pattern = Pattern.compile("^(\\d+)$");
 
@@ -126,10 +134,12 @@ public enum Command {
     },
     /**
      * Exit Yappy application.
-     * 
+     *
      * Format: {@code bye}.
      */
     EXIT(CommandInfos.EXIT) {
+
+        @Override
         public String execute(String argStr, TaskList taskList) throws YappyException {
             if (!argStr.isBlank()) {
                 throw new YappyInputException(getCommandInfo());
@@ -140,40 +150,48 @@ public enum Command {
     },
     /**
      * Add a todo task to the task list.
-     * 
+     *
      * Format: {@code todo <description>}.
      */
     TODO(CommandInfos.TODO) {
+
+        @Override
         public String execute(String argStr, TaskList taskList) throws YappyException {
             return executeTaskAddition(argStr, taskList, TaskType.TODO, getCommandInfo());
         }
     },
     /**
      * Add a deadline task to the task list.
-     * 
+     *
      * Format: {@code deadline <description> /by <deadline>}.
      */
     DEADLINE(CommandInfos.DEADLINE) {
+
+        @Override
         public String execute(String argStr, TaskList taskList) throws YappyException {
             return executeTaskAddition(argStr, taskList, TaskType.DEADLINE, getCommandInfo());
         }
     },
     /**
      * Add an event to the task list.
-     * 
+     *
      * Format: {@code event <description> /from <start> /to <end>}.
      */
     EVENT(CommandInfos.EVENT) {
+
+        @Override
         public String execute(String argStr, TaskList taskList) throws YappyException {
             return executeTaskAddition(argStr, taskList, TaskType.EVENT, getCommandInfo());
         }
     },
     /**
      * Find tasks from the task list using a given keyword.
-     * 
+     *
      * Format :{@code find <keyword>}.
      */
     FIND(CommandInfos.FIND) {
+
+        @Override
         public String execute(String argStr, TaskList taskList) throws YappyException {
             if (argStr.isBlank()) {
                 throw new YappyInputException(getCommandInfo());
@@ -190,7 +208,7 @@ public enum Command {
 
     /**
      * Returns metadata about this command, including name, action and help.
-     * 
+     *
      * @return The {@code CommandInfo} for this command.
      */
     public CommandInfo getCommandInfo() {
@@ -200,7 +218,7 @@ public enum Command {
     /**
      * Finds a {@code Command} by its name by matching against {@code
      * commandInfo.name()}.
-     * 
+     *
      * @param commandName The command name.
      * @return An {@code Optional} containing the found command, or empty if not found.
      */
@@ -212,7 +230,7 @@ public enum Command {
     /**
      * Executes the command with the given argument string and task list. Execution involves parsing
      * the raw argument string, handling the business logic and rendering the output.
-     * 
+     *
      * @param argStr The raw argument string.
      * @param taskList The current task list.
      * @return The rendered output.
