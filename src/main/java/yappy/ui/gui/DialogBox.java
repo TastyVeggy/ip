@@ -2,6 +2,7 @@ package yappy.ui.gui;
 
 import java.io.IOException;
 import java.util.Collections;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -53,16 +54,16 @@ public class DialogBox extends HBox {
         // Remove hard coding of strings and refactor everything to use the
         // command infos instead
         switch (commandName) {
-            case "todo", "deadline", "event":
-                dialog.getStyleClass().add("add-label");
-                break;
-            case "unmark", "mark":
-                dialog.getStyleClass().add("marked-label");
-                break;
-            case "delete":
-                dialog.getStyleClass().add("delete-label");
-                break;
-            default:
+        case "todo", "deadline", "event":
+            dialog.getStyleClass().add("add-label");
+            break;
+        case "unmark", "mark":
+            dialog.getStyleClass().add("marked-label");
+            break;
+        case "delete":
+            dialog.getStyleClass().add("delete-label");
+            break;
+        default:
         }
     }
 

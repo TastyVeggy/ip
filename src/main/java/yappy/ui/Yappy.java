@@ -2,6 +2,7 @@ package yappy.ui;
 
 import java.util.Scanner;
 import java.util.StringJoiner;
+
 import yappy.Constants;
 import yappy.exception.YappyException;
 import yappy.task.TaskList;
@@ -19,143 +20,143 @@ import yappy.util.UiUtil;
  * </ul>
  */
 public class Yappy {
-	private TaskList taskList;
-	private String commandName;
+    private TaskList taskList;
+    private String commandName;
 
-	private record ParsedInput(String commandName, String args) {
-	};
+    private record ParsedInput(String commandName, String args) {
+    };
 
-	private record CommandResult(String response, TaskList taskList) {
-	};
+    private record CommandResult(String response, TaskList taskList) {
+    };
 
-	/**
-	 * Creates Yappy instance that powers the chatbot within the GUI Yappy program.
-	 */
-	public Yappy() {
-		this.taskList = attemptToLoadTasksFromBackup();
-	}
+    /**
+     * Creates Yappy instance that powers the chatbot within the GUI Yappy program.
+     */
+    public Yappy() {
+        this.taskList = attemptToLoadTasksFromBackup();
+    }
 
-	/**
-	 * Returns the response from the chatbot program given the input from the user.
-	 * 
-	 * @param input The input by the user of the GUI Yappy program.
-	 * @return The response from Yappy given the user input.
-	 */
-	public String interact(String input) {
-		ParsedInput parsedInput = parseInput(input);
-		this.commandName = parsedInput.commandName();
-		CommandResult result = executeCommand(parsedInput, taskList);
-		this.taskList = result.taskList();
-		return result.response();
-	}
+    /**
+     * Returns the response from the chatbot program given the input from the user.
+     *
+     * @param input The input by the user of the GUI Yappy program.
+     * @return The response from Yappy given the user input.
+     */
+    public String interact(String input) {
+        ParsedInput parsedInput = parseInput(input);
+        this.commandName = parsedInput.commandName();
+        CommandResult result = executeCommand(parsedInput, taskList);
+        this.taskList = result.taskList();
+        return result.response();
+    }
 
-	/**
-	 * Returns the name of the most recent command.
-	 * 
-	 * @return The most recent command name;
-	 */
-	public String getCommandName() {
-		return this.commandName;
-	}
+    /**
+     * Returns the name of the most recent command.
+     *
+     * @return The most recent command name;
+     */
+    public String getCommandName() {
+        return this.commandName;
+    }
 
-	/**
-	 * Returns the greetings from Yappy.
-	 * 
-	 * @return The greetings from Yappy.
-	 */
-	public static String getGreetings() {
-		return Constants.LOGO + "\n" + "Hello! I'm Yappy\n" + "What can I do for you?";
-	}
+    /**
+     * Returns the greetings from Yappy.
+     *
+     * @return The greetings from Yappy.
+     */
+    public static String getGreetings() {
+        return Constants.LOGO + "\n" + "Hello! I'm Yappy\n" + "What can I do for you?";
+    }
 
-	/**
-	 * Runs the CLI Yappy program.
-	 * 
-	 * @param args Not used.
-	 */
-	public static void main(String[] args) {
-		UiUtil.printBreakLine();
-		greet();
-		UiUtil.printBreakLine();
-		runTaskCliProgram();
-		UiUtil.printBreakLine();
-	}
+    /**
+     * Runs the CLI Yappy program.
+     *
+     * @param args Not used.
+     */
+    public static void main(String[] args) {
+        UiUtil.printBreakLine();
+        greet();
+        UiUtil.printBreakLine();
+        runTaskCliProgram();
+        UiUtil.printBreakLine();
+    }
 
-	private static void greet() {
-		System.out.println(getGreetings());
-	}
+    private static void greet() {
+        System.out.println(getGreetings());
+    }
 
-	private static void runTaskCliProgram() {
-		TaskList taskList = attemptToLoadTasksFromBackup();
+    private static void runTaskCliProgram() {
+        TaskList taskList = attemptToLoadTasksFromBackup();
 
-		Scanner scanner = new Scanner(System.in);
-		String input = scanner.nextLine();
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
 
-		while (true) {
-			ParsedInput parsedInput = parseInput(input);
+        while (true) {
+            ParsedInput parsedInput = parseInput(input);
 
+            UiUtil.printBreakLine();
 
-			UiUtil.printBreakLine();
+            CommandResult result = Yappy.executeCommand(parsedInput, taskList);
+            taskList = result.taskList();
+            System.out.println(result.response());
 
-			CommandResult result = Yappy.executeCommand(parsedInput, taskList);
-			taskList = result.taskList();
-			System.out.println(result.response());
+            if (parsedInput.commandName().equals(Command.EXIT.getCommandInfo().name())) {
+                break;
+            }
+            UiUtil.printBreakLine();
+            input = scanner.nextLine();
+        }
+        scanner.close();
+    }
 
-			if (parsedInput.commandName().equals(Command.EXIT.getCommandInfo().name())) {
-				break;
-			}
-			UiUtil.printBreakLine();
-			input = scanner.nextLine();
-		}
-		scanner.close();
-	}
+    private static TaskList attemptToLoadTasksFromBackup() {
+        TaskList taskList;
+        try {
+            taskList = TaskList.usingBackup(Constants.TASKS_SAVE_FILE);
+        } catch (TaskListLoadBackupException e) {
+            taskList = new TaskList();
+        }
+        return taskList;
 
-	private static TaskList attemptToLoadTasksFromBackup() {
-		TaskList taskList;
-		try {
-			taskList = TaskList.usingBackup(Constants.TASKS_SAVE_FILE);
-		} catch (TaskListLoadBackupException e) {
-			taskList = new TaskList();
-		}
-		return taskList;
+    }
 
-	}
+    private static ParsedInput parseInput(String input) {
+        String commandName = "";
+        String argStr = "";
+        if (!input.isBlank()) {
+            String[] tokens = input.trim().split("\\s+", 2);
+            commandName = tokens[0];
+            if (tokens.length > 1) {
+                argStr = tokens[1];
+            }
+        }
+        return new ParsedInput(commandName, argStr);
+    }
 
-	private static ParsedInput parseInput(String input) {
-		String commandName = "";
-		String argStr = "";
-		if (!input.isBlank()) {
-			String[] tokens = input.trim().split("\\s+", 2);
-			commandName = tokens[0];
-			if (tokens.length > 1) {
-				argStr = tokens[1];
-			}
-		}
-		return new ParsedInput(commandName, argStr);
-	}
+    private static CommandResult executeCommand(ParsedInput parsedInput, TaskList taskList) {
+        return Command.fromName(parsedInput.commandName()).map(cmd -> {
+            try {
+                String response = cmd.execute(parsedInput.args(), taskList);
+                return new CommandResult(response, taskList);
+            } catch (YappyException e) {
+                return new CommandResult(e.getMessage(), taskList);
+            }
+        }).map(result -> {
+            try {
+                taskList.save(Constants.TASKS_SAVE_FILE);
+                return result;
+            } catch (TaskListSaveBackupException e) {
+                return new CommandResult(result.response() + "\n" + e.getMessage(),
+                        result.taskList());
+            }
+        }).orElseGet(() -> {
+            StringJoiner joiner =
+                    new StringJoiner("\n -", "Unknown command. Supported commands are:\n -", "");
+            for (Command validCommand : Command.values()) {
+                joiner.add(validCommand.getCommandInfo().name());
+            }
+            return new CommandResult(joiner.toString(), taskList);
+        });
+    }
 
-	private static CommandResult executeCommand(ParsedInput parsedInput, TaskList taskList) {
-		return Command.fromName(parsedInput.commandName()).map(cmd -> {
-			try {
-				String response = cmd.execute(parsedInput.args(), taskList);
-				return new CommandResult(response, taskList);
-			} catch (YappyException e) {
-				return new CommandResult(e.getMessage(), taskList);
-			}
-		}).map(result -> {
-			try {
-				taskList.save(Constants.TASKS_SAVE_FILE);
-				return result;
-			} catch (TaskListSaveBackupException e) {
-				return new CommandResult(result.response() + "\n" + e.getMessage(),
-						result.taskList());
-			}
-		}).orElseGet(() -> {
-			StringJoiner joiner =
-					new StringJoiner("\n -", "Unknown command. Supported commands are:\n -", "");
-			for (Command validCommand : Command.values()) {
-				joiner.add(validCommand.getCommandInfo().name());
-			}
-			return new CommandResult(joiner.toString(), taskList);
-		});
-	}
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Utility class for parsing and formatting {@code LocalDateTime} objects.
- * 
+ *
  * Supported input formats:
  * <ul>
  * <li>dd-MM-yyyy HH:mm</li>
@@ -25,16 +25,17 @@ public final class DateTimeUtil {
             new Format(DateTimeFormatter.ofPattern("MMM d yyyy, h:mm a"), "MMM d yyyy, h:mm a",
                     "Aug 26 2025, 3:00 PM"));
 
+    private static final DateTimeFormatter DEFAULT_OUTPUT_FORMAT =
+            DateTimeFormatter.ofPattern("MMM d yyyy, h:mm a");
+
     private DateTimeUtil() {
         throw new UnsupportedOperationException("Utility class");
     }
 
-    private static final DateTimeFormatter DEFAULT_OUTPUT_FORMAT =
-            DateTimeFormatter.ofPattern("MMM d yyyy, h:mm a");
 
     /**
      * Formats a {@code LocalDateTime} object into the default string representation.
-     * 
+     *
      * @param dateTime The {@code LocalDateTime} object to format.
      * @return The default string representation.
      */
@@ -44,7 +45,7 @@ public final class DateTimeUtil {
 
     /**
      * Parses a string into a {@code LocalDateTime} object if the format is supported.
-     * 
+     *
      * @param input The date-time string to be parsed.
      * @return The parsed {@code LocalDateTime} object.
      * @throws DateTimeParseException If the input does not match any supported format.
@@ -54,6 +55,7 @@ public final class DateTimeUtil {
             try {
                 return LocalDateTime.parse(input, format.formatter());
             } catch (DateTimeParseException ignored) {
+                // Try next format
             }
         }
         throw new DateTimeParseException("Unsupported date format: " + input, input, 0);
@@ -61,7 +63,7 @@ public final class DateTimeUtil {
 
     /**
      * Returns a list of supported date-time formats with usage examples.
-     * 
+     *
      * @return List of supported date-time formats with usage examples.
      */
     public static List<String> getUsageForSupportedFormats() {

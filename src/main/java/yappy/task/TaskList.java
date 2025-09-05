@@ -28,7 +28,7 @@ public class TaskList {
 
     /**
      * Creates a TaskList consisting of tasks from a backup file.
-     * 
+     *
      * @param filepath Filepath of the backup file.
      * @return The task lists created from the backup file.
      * @throws TaskListLoadBackupException If there is error in loading task list from the backup
@@ -50,7 +50,7 @@ public class TaskList {
 
     /**
      * Save TaskList in a backup file so it can be restored in the future.
-     * 
+     *
      * @param filepath Filepath of the backup file.
      * @throws TaskListSaveBackupException If there is an error in saving the task list into the
      *         backup file.
@@ -66,7 +66,7 @@ public class TaskList {
 
     /**
      * Add a Task into the task list.
-     * 
+     *
      * @param task Task to be added to the task list.
      */
     public void add(Task task) {
@@ -75,7 +75,7 @@ public class TaskList {
 
     /**
      * Returns the list of tasks within the TaskList.
-     * 
+     *
      * @return the list of tasks within the TaskList.
      */
     public ArrayList<Task> getTasks() {
@@ -84,7 +84,7 @@ public class TaskList {
 
     /**
      * Mark a Task as done.
-     * 
+     *
      * @param index Index of the Task to be marked with one-based indexing.
      * @return The Task after it is marked.
      * @throws TaskNotFoundException If the index is out of bounds and no corresponding task can be
@@ -98,7 +98,7 @@ public class TaskList {
 
     /**
      * Unmark a Task as done (ie. Mark it as undone).
-     * 
+     *
      * @param index Index of the Task to be unmarked with one-based indexing.
      * @return The Task after it is unmarked.
      * @throws TaskNotFoundException If the index is out of bounds and no corresponding task can be
@@ -112,7 +112,7 @@ public class TaskList {
 
     /**
      * Delete a Task from the TaskList.
-     * 
+     *
      * @param index Index of the Task to be deleted with one-based indexing.
      * @return The Task that has been deleted.
      * @throws TaskNotFoundException If the index is out of bounds and no corresponding task can be
@@ -126,7 +126,7 @@ public class TaskList {
 
     /**
      * Returns a Task from the TaskList.
-     * 
+     *
      * @param index Index of the Task to be returned with one-based indexing.
      * @return The Task that has been selected.
      * @throws TaskNotFoundException If the index is out of bounds and no corresponding task can be
@@ -142,24 +142,24 @@ public class TaskList {
     /**
      * Returns a short list of tasks containing tasks with the desired keyword in the task
      * description.
-     * 
+     *
      * @param keyword Keyword for which we wish to search for in the task description
      * @return Short-listed task
      */
     public TaskList getShortListWithKeyword(String keyword) {
-        TaskList TaskShortList = new TaskList();
+        TaskList taskShortList = new TaskList();
 
         for (Task task : this.tasks) {
             if (task.containsInDescription(keyword)) {
-                TaskShortList.add(task);
+                taskShortList.add(task);
             }
         }
-        return TaskShortList;
+        return taskShortList;
     }
 
     /**
      * Returns a string representation of the task list.
-     * 
+     *
      * @return String representation of the task list.
      */
     @Override
@@ -176,7 +176,7 @@ public class TaskList {
 
     /**
      * Returns the number of tasks stored in the TaskList.
-     * 
+     *
      * @return The number of tasks stored in the TaskList.
      */
     public int getSize() {
