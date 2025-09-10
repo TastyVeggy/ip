@@ -1,6 +1,7 @@
 package yappy.ui;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import yappy.task.TaskType;
 import yappy.util.DateTimeUtil;
@@ -48,16 +49,9 @@ public class CommandInfos {
 
 
     private static String generateDateTimeUsage() {
-        String s = "\n\nFor datetime, please use one of the following supported formats:\n";
         List<String> usages = DateTimeUtil.getUsageForSupportedFormats();
-        int numberOfSupportedFormats = usages.size();
-        for (int i = 0; i < numberOfSupportedFormats - 1; i++) {
-            s += " - " + usages.get(i) + "\n";
-        }
-        if (numberOfSupportedFormats > 0) {
-            s += " - " + usages.get(numberOfSupportedFormats - 1);
-        }
-
+        String s = "\n\nFor datetime, please use one of the following supported formats:\n"
+                + usages.stream().map(u -> " - " + u).collect(Collectors.joining("\n"));
         return s;
     }
 
