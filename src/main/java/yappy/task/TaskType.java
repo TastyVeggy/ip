@@ -82,7 +82,6 @@ public enum TaskType {
             String fromStr = matcher.group(2).trim();
             String toStr = matcher.group(3).trim();
 
-
             try {
                 LocalDateTime from = DateTimeUtil.parse(fromStr);
                 LocalDateTime to = DateTimeUtil.parse(toStr);

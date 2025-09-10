@@ -45,7 +45,9 @@ public class Yappy {
     public String interact(String input) {
         ParsedInput parsedInput = parseInput(input);
         this.commandName = parsedInput.commandName();
+
         CommandResult result = executeCommand(parsedInput, taskList);
+
         this.taskList = result.taskList();
         return result.response();
     }
@@ -100,9 +102,11 @@ public class Yappy {
             taskList = result.taskList();
             System.out.println(result.response());
 
+            // exit program when given exit command
             if (parsedInput.commandName().equals(Command.EXIT.getCommandInfo().name())) {
                 break;
             }
+
             UiUtil.printBreakLine();
             input = scanner.nextLine();
         }
