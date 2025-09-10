@@ -71,6 +71,11 @@ public enum Command {
             }
 
             int index = Integer.parseInt(matcher.group(1));
+
+            return render(taskList, index);
+        }
+
+        private String render(TaskList taskList, int index) throws YappyException {
             try {
                 Task task = taskList.markTask(index);
                 return "Nice! I've marked this task as done:\n" + task;
@@ -96,6 +101,11 @@ public enum Command {
             }
 
             int index = Integer.parseInt(matcher.group(1));
+
+            return render(taskList, index);
+        }
+
+        private String render(TaskList taskList, int index) throws YappyException {
             try {
                 Task deletedTask = taskList.deleteTask(index);
                 String s = "Noted, I've removed this task:\n " + deletedTask + String
@@ -116,13 +126,17 @@ public enum Command {
         @Override
         public String execute(String argStr, TaskList taskList) throws YappyException {
             final Pattern pattern = Pattern.compile("^(\\d+)$");
-
             Matcher matcher = pattern.matcher(argStr.trim());
             if (!matcher.matches()) {
                 throw new YappyInputException(getCommandInfo());
             }
 
             int index = Integer.parseInt(matcher.group(1));
+
+            return render(taskList, index);
+        }
+
+        private String render(TaskList taskList, int index) throws YappyException {
             try {
                 Task task = taskList.unmarkTask(index);
                 return "Nice! I've unmarked this task as done:\n" + task;
@@ -251,12 +265,12 @@ public enum Command {
             throw new YappyException(e.getMessage());
         }
         taskList.add(task);
+
         String s = "Got it. I've added this task:\n " + task
                 + String.format("\nNow you have %d task", taskList.getSize());
         if (taskList.getSize() > 1) {
             s += "s";
         }
-
         s += " in the list.";
         return s;
     }

@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import yappy.ui.Command;
 import yappy.ui.Yappy;
 
 /**
@@ -50,10 +51,11 @@ public class MainWindow extends AnchorPane {
         String input = userInput.getText();
         String response = yappy.interact(input);
         String commandName = yappy.getCommandName();
-        // TODO: make this bye not hardcoded
-        if (commandName.equals("bye")) {
+
+        if (commandName.equals(Command.EXIT.getCommandInfo().name())) {
             Platform.exit();
         }
+
         dialogContainer.getChildren().addAll(DialogBox.getUserDialog(input, userImage),
                 DialogBox.getYappyDialog(response, yappyImage, commandName));
         userInput.clear();
