@@ -203,6 +203,7 @@ public enum Command {
     private CommandInfo commandInfo;
 
     private Command(CommandInfo commandInfo) {
+        assert commandInfo != null : "CommandInfo must not be null";
         this.commandInfo = commandInfo;
     }
 
@@ -223,6 +224,7 @@ public enum Command {
      * @return An {@code Optional} containing the found command, or empty if not found.
      */
     public static Optional<Command> fromName(String commandName) {
+        assert commandName != null : "Command name lookup should not be null";
         return Arrays.stream(Command.values()).filter(c -> c.commandInfo.name().equals(commandName))
                 .findFirst();
     }
