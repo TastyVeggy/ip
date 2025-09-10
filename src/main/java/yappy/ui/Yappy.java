@@ -2,6 +2,7 @@ package yappy.ui;
 
 import java.util.Scanner;
 import java.util.StringJoiner;
+
 import yappy.Constants;
 import yappy.exception.YappyException;
 import yappy.task.TaskList;

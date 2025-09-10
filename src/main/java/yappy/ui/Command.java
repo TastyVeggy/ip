@@ -199,6 +199,18 @@ public enum Command {
         }
     },
     /**
+     * Add an fixed duration task to the task list.
+     *
+     * Format: {@code event <description> /time <duration>}.
+     */
+    FIXED_DURATION(CommandInfos.FIXED_DURATION) {
+
+        @Override
+        public String execute(String argStr, TaskList taskList) throws YappyException {
+            return executeTaskAddition(argStr, taskList, TaskType.FIXED_DURATION, getCommandInfo());
+        }
+    },
+    /**
      * Find tasks from the task list using a given keyword.
      *
      * Format :{@code find <keyword>}.

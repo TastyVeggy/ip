@@ -1,5 +1,7 @@
 package yappy.ui;
 
+import java.util.List;
+
 import yappy.task.TaskType;
 import yappy.util.DateTimeUtil;
 
@@ -37,15 +39,30 @@ public class CommandInfos {
     public static final CommandInfo EVENT = new CommandInfo("event", "add event task",
             "event " + TaskType.EVENT.getArgsFormat() + generateDateTimeUsage());
 
+    public static final CommandInfo FIXED_DURATION = new CommandInfo("fixed_duration",
+            "add fixed duration task",
+            "fixed_duration " + TaskType.FIXED_DURATION.getArgsFormat() + generateDurationUsage());
+
     public static final CommandInfo FIND =
             new CommandInfo("find", "find tasks with given keyword", "find <keyword>");
 
 
     private static String generateDateTimeUsage() {
         String s = "\n\nFor datetime, please use one of the following supported formats:\n";
-        for (String usage : DateTimeUtil.getUsageForSupportedFormats()) {
-            s += " - " + usage + "\n";
+        List<String> usages = DateTimeUtil.getUsageForSupportedFormats();
+        int numberOfSupportedFormats = usages.size();
+        for (int i = 0; i < numberOfSupportedFormats - 1; i++) {
+            s += " - " + usages.get(i) + "\n";
         }
+        if (numberOfSupportedFormats > 0) {
+            s += " - " + usages.get(numberOfSupportedFormats - 1);
+        }
+
+        return s;
+    }
+
+    private static String generateDurationUsage() {
+        String s = "\n\nFor duration, please use XhYmZs (e.g. 2h15m30s)";
         return s;
     }
 }
