@@ -1,5 +1,6 @@
 package yappy.task;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
@@ -9,6 +10,7 @@ import yappy.task.exception.EmptyTaskDescriptionException;
 import yappy.task.exception.TaskException;
 import yappy.task.exception.TaskInvalidArgsException;
 import yappy.util.DateTimeUtil;
+import yappy.util.DurationUtil;
 
 /**
  * Represents the different types of tasks supported by Yappy application.
@@ -82,7 +84,6 @@ public enum TaskType {
             String fromStr = matcher.group(2).trim();
             String toStr = matcher.group(3).trim();
 
-
             try {
                 LocalDateTime from = DateTimeUtil.parse(fromStr);
                 LocalDateTime to = DateTimeUtil.parse(toStr);
@@ -90,6 +91,34 @@ public enum TaskType {
             } catch (DateTimeParseException e) {
                 throw new TaskInvalidArgsException(getArgsFormat());
             }
+        }
+    },
+    /**
+     * An fixed duration task with description and fixed duration
+     *
+     * Format: {@code <description> /time <duration>}.
+     */
+    FIXED_DURATION("<description> /time <duration>") {
+        private final Pattern pattern = Pattern.compile("^(.+?)\\s+/time\\s+(.+?)$");
+
+        @Override
+        public FixedDurationTask create(String argStr) throws TaskException {
+            Matcher matcher = pattern.matcher(argStr);
+            if (!matcher.matches()) {
+                throw new TaskInvalidArgsException(getArgsFormat());
+            }
+
+            String description = matcher.group(1).trim();
+            String durationStr = matcher.group(2).trim();
+
+            Duration duration;
+            try {
+                duration = DurationUtil.parse(durationStr);
+            } catch (IllegalArgumentException e) {
+                throw new TaskInvalidArgsException(getArgsFormat());
+            }
+
+            return new FixedDurationTask(description, duration);
         }
     };
 

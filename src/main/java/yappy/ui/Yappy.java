@@ -34,6 +34,7 @@ public class Yappy {
      */
     public Yappy() {
         this.taskList = attemptToLoadTasksFromBackup();
+        assert this.taskList != null : "Tasklist should be initialised";
     }
 
     /**
@@ -45,7 +46,9 @@ public class Yappy {
     public String interact(String input) {
         ParsedInput parsedInput = parseInput(input);
         this.commandName = parsedInput.commandName();
+
         CommandResult result = executeCommand(parsedInput, taskList);
+
         this.taskList = result.taskList();
         return result.response();
     }
@@ -100,9 +103,11 @@ public class Yappy {
             taskList = result.taskList();
             System.out.println(result.response());
 
+            // exit program when given exit command
             if (parsedInput.commandName().equals(Command.EXIT.getCommandInfo().name())) {
                 break;
             }
+
             UiUtil.printBreakLine();
             input = scanner.nextLine();
         }
@@ -125,15 +130,25 @@ public class Yappy {
         String argStr = "";
         if (!input.isBlank()) {
             String[] tokens = input.trim().split("\\s+", 2);
+
+            assert tokens.length >= 1 : "Split should always produce at least one token";
+
             commandName = tokens[0];
             if (tokens.length > 1) {
                 argStr = tokens[1];
             }
         }
+
+        assert commandName != null : "Command name should not be null";
+        assert argStr != null : "Arg string should not be null";
         return new ParsedInput(commandName, argStr);
     }
 
     private static CommandResult executeCommand(ParsedInput parsedInput, TaskList taskList) {
+        assert parsedInput != null : "ParsedInput should not be null";
+        assert parsedInput.commandName() != null : "Command name should not be null";
+        assert parsedInput.args() != null : "Args should not  be null";
+        assert taskList != null : "TaskList should not be null";
         return Command.fromName(parsedInput.commandName()).map(cmd -> {
             try {
                 String response = cmd.execute(parsedInput.args(), taskList);
