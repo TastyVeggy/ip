@@ -1,14 +1,22 @@
-.label {
+/* USER bubble */
+.user-label {
     -fx-background-color: linear-gradient(to bottom right, #00ffbf, #00ddff);
-    -fx-border-color: #d55e00 #009e73 #cc79a7 #0072b2;
-    -fx-border-width: 2px;
+    -fx-text-fill: #003366;
+    -fx-padding: 8 12;
     -fx-background-radius: 1em 1em 0 1em;
     -fx-border-radius: 1em 1em 0 1em;
-    -fx-padding: 6px;
-    -fx-border-insets: 0px 7px 0px 7px;
-    -fx-background-insets: 0px 7px 0px 7px;
 }
 
+/* BOT bubble (default neutral) */
+.bot-label {
+    -fx-background-color: #f5f5f5;
+    -fx-text-fill: #333333;
+    -fx-padding: 10 14;
+    -fx-background-radius: 1em 1em 1em 0;
+    -fx-border-radius: 1em 1em 1em 0;
+}
+
+/* Command-specific overrides for bot */
 .add-label {
     -fx-background-color: yellow;
 }
@@ -21,19 +29,9 @@
     -fx-background-color: lightpink;
 }
 
-.reply-label {
-    -fx-background-radius: 1em 1em 1em 0;
-    -fx-border-radius: 1em 1em 1em 0;
-}
-
+/* Avatar stays with subtle shadow */
 #displayPicture {
-    /* Shadow effect on image. */
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 5, 5);
-
-    /* Change size of image. */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 8, 0.5, 3, 3);
     -fx-scale-x: 1;
     -fx-scale-y: 1;
-
-    /* Rotate image clockwise by degrees. */
-    -fx-rotate: 0;
 }
