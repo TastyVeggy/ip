@@ -26,8 +26,8 @@ public class MainWindow extends AnchorPane {
 
     private Yappy yappy;
 
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/user.jpg"));
-    private Image yappyImage = new Image(this.getClass().getResourceAsStream("/images/yappy.jpg"));
+    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/user.png"));
+    private Image yappyImage = new Image(this.getClass().getResourceAsStream("/images/yappy.png"));
 
     /** Initialise the controller for the main GUI */
     @FXML
