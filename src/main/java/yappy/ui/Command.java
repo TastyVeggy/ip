@@ -109,7 +109,7 @@ public enum Command {
             try {
                 Task deletedTask = taskList.deleteTask(index);
                 String s = "Noted, I've removed this task:\n " + deletedTask + String
-                        .format("%nNow you have %d tasks in this list.%n", taskList.getSize());
+                        .format("%nNow you have %d tasks in this list.", taskList.getSize());
                 return s;
             } catch (TaskNotFoundException e) {
                 throw new YappyException(e.getMessage());
