@@ -26,8 +26,8 @@ public class MainWindow extends AnchorPane {
 
     private Yappy yappy;
 
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
-    private Image yappyImage = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
+    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/user.jpg"));
+    private Image yappyImage = new Image(this.getClass().getResourceAsStream("/images/yappy.jpg"));
 
     /** Initialise the controller for the main GUI */
     @FXML
@@ -37,13 +37,13 @@ public class MainWindow extends AnchorPane {
                 .addAll(DialogBox.getYappyDialog(Yappy.getGreetings(), yappyImage, "greet"));
     }
 
-    /** Injects the Duke instance */
+    /** Injects the Yappy instance */
     public void setYappy(Yappy yappy) {
         this.yappy = yappy;
     }
 
     /**
-     * Creates two dialog boxes, one echoing user input and the other containing Duke's reply and
+     * Creates two dialog boxes, one echoing user input and the other containing Yappy's reply and
      * then appends them to the dialog container. Clears the user input after processing.
      */
     @FXML
