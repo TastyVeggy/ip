@@ -68,7 +68,7 @@ public class Yappy {
      * @return The greetings from Yappy.
      */
     public static String getGreetings() {
-        return Constants.LOGO + "\n" + "Hello! I'm Yappy\n" + "What can I do for you?";
+        return "Hello! I'm Yappy\n" + "What can I do for you?";
     }
 
     /**
