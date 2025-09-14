@@ -48,6 +48,20 @@ Yappy supports these task types:
 * `bye`
 
 ## Features
+> [!NOTE]
+> Upon starting the program, it will look for a file named `data.dat` relative to the 
+> present working directory which contains backup data from previous sessions.
+> If it exists, the program will load the backup data, else it will just
+> silently fail. To verify if the backing up from previous session worked, if the
+> latest previous session ended with a non-empty list of tasks, executing `list`
+> in the present session, should display a non-empty list of the tasks from the
+> previous session.
+>
+> After each command, the program will backup the latest task list via a file
+> named `data.dat` relative to the present working directory. If the file does not
+> exist, the program will create the file.
+>
+> Deleting the `data.dat` file, will result in loss of backup data.
 
 
 ### Listing tasks: `list`
