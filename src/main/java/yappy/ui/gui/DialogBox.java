@@ -54,7 +54,7 @@ public class DialogBox extends HBox {
         // Remove hard coding of strings and refactor everything to use the
         // command infos instead
         switch (commandName) {
-        case "todo", "deadline", "event":
+        case "todo", "deadline", "event", "fixed_duration":
             dialog.getStyleClass().add("add-label");
             break;
         case "unmark", "mark":
