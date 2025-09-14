@@ -21,9 +21,9 @@ public final class DateTimeUtil {
 
     private static final List<Format> SUPPORTED_FORMATS = List.of(
             new Format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"), "dd-MM-yyyy HH:mm",
-                    "26-08-2025 15:00"),
-            new Format(DateTimeFormatter.ofPattern("MMM d yyyy, h:mm a"), "MMM d yyyy, h:mm a",
-                    "Aug 26 2025, 3:00 PM"));
+                    "07-08-2025 07:00"),
+            new Format(DateTimeFormatter.ofPattern("d MMM yyyy, HH:mm"), "d MMM yyyy, HH:mm",
+                    "7 Aug 2025, 07:00"));
 
     private static final DateTimeFormatter DEFAULT_OUTPUT_FORMAT =
             DateTimeFormatter.ofPattern("MMM d yyyy, h:mm a");
