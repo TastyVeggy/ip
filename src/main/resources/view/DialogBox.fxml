@@ -17,6 +17,7 @@
 
     <Label fx:id="dialog"
            minHeight="-Infinity"
+           maxWidth="400"
            text="Label"
            wrapText="true" />
 

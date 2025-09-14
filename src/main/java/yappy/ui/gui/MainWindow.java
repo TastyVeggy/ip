@@ -32,6 +32,8 @@ public class MainWindow extends AnchorPane {
     /** Initialise the controller for the main GUI */
     @FXML
     public void initialize() {
+        scrollPane.setFitToHeight(false);
+        scrollPane.setFitToWidth(true);
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
         dialogContainer.getChildren()
                 .addAll(DialogBox.getYappyDialog(Yappy.getGreetings(), yappyImage, "greet"));
